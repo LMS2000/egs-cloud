@@ -1,0 +1,178 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>sqltool-cloud</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>sqltool-cloud</name>
+  <url>http://maven.apache.org</url>
+  <modules>
+    <module>sqltool-server</module>
+    <module>sqltool-gateway</module>
+    <module>sqltool-sdk</module>
+    <module>sqltool-common</module>
+  </modules>
+
+  <parent>
+    <artifactId>spring-boot-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <version>2.3.9.RELEASE</version>
+  </parent>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <mapstruct.version>1.4.1.Final</mapstruct.version>
+    <knife4j.version>3.0.2</knife4j.version>
+    <mybaits.plus.version>3.5.2</mybaits.plus.version>
+    <mysql.version>8.0.11</mysql.version>
+    <druid.version>1.2.12</druid.version>
+    <lombok.version>1.18.24</lombok.version>
+    <hutool.version>5.8.12</hutool.version>
+    <fastjson.version>1.2.79</fastjson.version>
+    <dubbo.version>3.0.9</dubbo.version>
+    <nacos.vesion>2.1.0</nacos.vesion>
+    <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
+    <spring-cloud.version>Hoxton.SR10</spring-cloud.version>
+  </properties>
+
+  <dependencyManagement>
+
+
+    <dependencies>
+      <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo -->
+
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+        <version>${spring-cloud-alibaba.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo</artifactId>
+        <version>${dubbo.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>${mapstruct.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct-processor</artifactId>
+        <version>${mapstruct.version}</version>
+      </dependency>
+
+      <!--    <dependency>-->
+      <!--      <groupId>org.mybatis.spring.boot</groupId>-->
+      <!--      <artifactId>mybatis-spring-boot-starter</artifactId>-->
+      <!--      <version>2.2.2</version>-->
+      <!--    </dependency>-->
+      <dependency>
+        <groupId>com.github.xiaoymin</groupId>
+        <artifactId>knife4j-spring-boot-starter</artifactId>
+        <version>${knife4j.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-boot-starter</artifactId>
+        <version>${mybaits.plus.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql.version}</version>
+      </dependency>
+
+      <!--druid连接池-->
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>${druid.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>cn.hutool</groupId>
+        <artifactId>hutool-all</artifactId>
+        <version>${hutool.version}</version>
+      </dependency>
+
+      <!-- 阿里JSON解析器 -->
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>${fastjson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.session</groupId>
+        <artifactId>spring-session-data-redis</artifactId>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+      <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+      <!-- https://doc.xiaominfo.com/knife4j/documentation/get_start.html-->
+      <!--    <dependency>-->
+      <!--      <groupId>com.lms</groupId>-->
+      <!--      <artifactId>yuapi-client-sdk</artifactId>-->
+      <!--      <version>0.0.1</version>-->
+      <!--    </dependency>-->
+
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-configuration-processor</artifactId>
+        <optional>true</optional>
+      </dependency>
+
+
+      <!-- https://mvnrepository.com/artifact/junit/junit -->
+
+    </dependencies>
+  </dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>28.0-jre</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.12.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>${mapstruct.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>${mapstruct.version}</version>
+    </dependency>
+  </dependencies>
+</project>

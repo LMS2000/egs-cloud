@@ -1,0 +1,24 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: sqltool-gateway
+  cloud:
+    nacos:
+      discovery:
+        namespace: 980d0b00-615a-47ec-9160-7745bcbac5e0
+    gateway:
+
+      default-filters:
+        - AddResponseHeader=source, lms
+      routes:
+        - id: api_route
+          uri: http://localhost:8102
+          predicates:
+            - Path=/api/**
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
