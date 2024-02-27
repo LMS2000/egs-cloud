@@ -1,4 +1,4 @@
-package com.lms.lmscommon.meta;
+package com.lms.maker.meta;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;

@@ -1,7 +1,6 @@
 package com.lms.lmscommon.model.dto.generator;
 
-
-import com.lms.lmscommon.meta.Meta;
+import com.lms.maker.meta.Meta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

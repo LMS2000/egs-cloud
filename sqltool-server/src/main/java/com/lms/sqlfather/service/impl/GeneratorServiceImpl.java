@@ -8,13 +8,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lms.contants.HttpCode;
 import com.lms.lmscommon.constant.SqlConstant;
 import com.lms.lmscommon.constant.StatusConstant;
-import com.lms.lmscommon.meta.Meta;
 import com.lms.lmscommon.model.dto.generator.GeneratorAddRequest;
 import com.lms.lmscommon.model.dto.generator.GeneratorQueryRequest;
 import com.lms.lmscommon.model.dto.generator.GeneratorUpdateRequest;
 import com.lms.lmscommon.model.entity.Generator;
 import com.lms.lmscommon.utils.SqlUtils;
 import com.lms.lmscommon.common.BusinessException;
+import com.lms.maker.meta.Meta;
 import com.lms.sqlfather.mapper.GeneratorMapper;
 import com.lms.sqlfather.service.GeneratorService;
 import com.lms.sqlfather.service.UserService;
@@ -37,8 +37,6 @@ import java.util.List;
 @Slf4j
 public class GeneratorServiceImpl extends ServiceImpl<GeneratorMapper, Generator> implements GeneratorService {
 
-    @Resource
-    private UserService userService;
 
     @Override
     public void validGenerator(Generator generator, boolean add) {

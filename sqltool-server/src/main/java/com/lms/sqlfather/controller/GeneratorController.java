@@ -7,22 +7,30 @@ import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.*;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.google.common.util.concurrent.RateLimiter;
 import com.lms.contants.HttpCode;
 import com.lms.lmscommon.common.DeleteRequest;
 import com.lms.lmscommon.constant.FileConstant;
 import com.lms.lmscommon.constant.UserConstant;
-import com.lms.lmscommon.meta.Meta;
-import com.lms.lmscommon.meta.MetaValidator;
-import com.lms.lmscommon.meta.generator.main.GenerateTemplate;
-import com.lms.lmscommon.meta.generator.main.ZipGenerator;
+
 import com.lms.lmscommon.model.dto.generator.*;
 import com.lms.lmscommon.model.entity.Generator;
 import com.lms.lmscommon.model.vo.generator.GeneratorVO;
 import com.lms.lmscommon.common.BusinessException;
+import com.lms.maker.generator.main.GenerateTemplate;
+import com.lms.maker.generator.main.ZipGenerator;
+import com.lms.maker.meta.Meta;
+import com.lms.maker.meta.MetaValidator;
 import com.lms.result.EnableResponseAdvice;
+import com.lms.sqlfather.annotation.IgnoreLog;
 import com.lms.sqlfather.client.OssClient;
 import com.lms.sqlfather.service.GeneratorService;
 import com.lms.sqlfather.service.GeneratorServiceFacade;
@@ -32,7 +40,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.CheckForNull;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -70,7 +77,7 @@ public class GeneratorController {
 
     private final OssClient client;
 
-
+    private static final RateLimiter MAKE_LIMITER = RateLimiter.create(10);
 
     /**
      * 创建
@@ -379,13 +386,19 @@ public class GeneratorController {
      *
      * @param generatorMakeRequest
      * @param response
-     * @return
      */
     @PostMapping("/make")
     @SaCheckLogin
+    @IgnoreLog
     public void makeGenerator(@RequestBody GeneratorMakeRequest generatorMakeRequest, HttpServletResponse response) throws IOException {
+        if (!MAKE_LIMITER.tryAcquire()) {
+            throw new BusinessException(HttpCode.OPERATION_ERROR);
+        }
+
         // 1) 输入参数
         Meta meta = generatorMakeRequest.getMeta();
+
+        System.out.println(JSONObject.toJSONString(generatorMakeRequest.getMeta()));
         String zipFilePath = generatorMakeRequest.getZipFilePath();
 
         // 需要用户登录
@@ -406,10 +419,16 @@ public class GeneratorController {
         try {
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
-            String objectURL = client.getObjectURL(FileConstant.BUCKET_NAME, zipFilePath);
-            // 处理下载到的流
-            byte[] bytes = objectURL.getBytes(StandardCharsets.UTF_8);
-            FileUtil.writeBytes(bytes,localZipFilePath);
+//            String objectURL = client.getObjectURL(FileConstant.BUCKET_NAME, zipFilePath);
+            GetObjectRequest getObjectRequest = new GetObjectRequest(FileConstant.BUCKET_NAME, zipFilePath);
+            S3Object s3Object = client.getS3Client().getObject(getObjectRequest);
+            S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
+            // 使用 IOUtils.copy() 方法将输入流内容复制到输出流（本地文件）
+            try (FileOutputStream fileOutputStream = new FileOutputStream(localZipFilePath)) {
+                IOUtils.copy(objectInputStream, fileOutputStream);
+            }
+
+//            FileUtil.writeBytes(objectURL.getBytes(),localZipFilePath);
             stopWatch.stop();
             System.out.println("下载文件：" + stopWatch.getTotalTimeMillis());
         } catch (Exception e) {
@@ -446,10 +465,9 @@ public class GeneratorController {
         String distZipFilePath = outputPath + suffix;
 
         // 设置响应头
-        response.setContentType("application/octet-stream;charset=UTF-8");
+        response.setContentType("application/octet-stream;charSet=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=" + zipFileName);
         Files.copy(Paths.get(distZipFilePath), response.getOutputStream());
-
         // 7）清理工作空间的文件
         CompletableFuture.runAsync(() -> {
             FileUtil.del(tempDirPath);
@@ -484,25 +502,28 @@ public class GeneratorController {
         String zipFilePath = getCacheFilePath(id, distPath);
 
         try {
-            cosManager.download(distPath, zipFilePath);
+            String objectURL = client.getObjectURL(FileConstant.BUCKET_NAME, distPath);
+            // 处理下载到的流
+            byte[] bytes = objectURL.getBytes(StandardCharsets.UTF_8);
+            FileUtil.writeBytes(bytes,zipFilePath);
         } catch (Exception e) {
             throw new BusinessException(HttpCode.SYSTEM_ERROR, "生成器下载失败");
         }
     }
 
-//    /**
-//     * 获取缓存文件路径
-//     *
-//     * @param id
-//     * @param distPath
-//     * @return
-//     */
-//    public String getCacheFilePath(long id, String distPath) {
-//        String projectPath = System.getProperty("user.dir");
-//        String tempDirPath = String.format("%s/.temp/cache/%s", projectPath, id);
-//        String zipFilePath = tempDirPath + "/" + distPath;
-//        return zipFilePath;
-//    }
+    /**
+     * 获取缓存文件路径
+     *
+     * @param id
+     * @param distPath
+     * @return
+     */
+    public String getCacheFilePath(long id, String distPath) {
+        String projectPath = System.getProperty("user.dir");
+        String tempDirPath = String.format("%s/.temp/cache/%s", projectPath, id);
+        String zipFilePath = tempDirPath + "/" + distPath;
+        return zipFilePath;
+    }
 //
 //    /**
 //     * 获取分页缓存 keu

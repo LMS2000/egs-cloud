@@ -3,11 +3,14 @@ package com.lms.sqlfather.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.io.FileUtil;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.lms.contants.HttpCode;
 import com.lms.lmscommon.constant.FileConstant;
 import com.lms.lmscommon.model.dto.file.UploadFileRequest;
 import com.lms.lmscommon.model.enums.FileUploadBizEnum;
+import com.lms.result.EnableResponseAdvice;
+import com.lms.sqlfather.annotation.IgnoreLog;
 import com.lms.sqlfather.client.OssClient;
 import com.lms.lmscommon.common.BusinessException;
 import io.swagger.annotations.Api;
@@ -18,9 +21,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Arrays;
 
 /**
@@ -29,7 +34,9 @@ import java.util.Arrays;
 @RequestMapping("/file")
 @Slf4j
 @AllArgsConstructor
+@RestController
 @Api(value = "文件管理")
+@EnableResponseAdvice
 public class FileController {
 
 
@@ -47,6 +54,7 @@ public class FileController {
     @SaCheckLogin
     @ApiOperationSupport(order = 1)
     @ApiOperation(value = "上传文件")
+    @IgnoreLog
     public String uploadFile(@RequestPart("file") MultipartFile multipartFile,
                              UploadFileRequest uploadFileRequest) {
         String biz = uploadFileRequest.getBiz();
@@ -61,13 +69,14 @@ public class FileController {
         // 文件目录：根据业务、用户来划分
         String uuid = RandomStringUtils.randomAlphanumeric(8);
         String filename = uuid + "-" + multipartFile.getOriginalFilename();
-        String filepath = String.format("/%s/%s/%s", fileUploadBizEnum.getValue(), loginId, filename);
+        String filepath = String.format("%s/%s/%s", fileUploadBizEnum.getValue(), loginId, filename);
         File file = null;
         try {
             // 上传文件
             file = File.createTempFile(filepath, null);
             multipartFile.transferTo(file);
-            ossClient.putObject(FileConstant.BUCKET_NAME,filepath, multipartFile.getInputStream());
+
+            ossClient.putObject(FileConstant.BUCKET_NAME, filepath, new FileInputStream(file));
             // 返回可访问地址
             return filepath;
         } catch (Exception e) {

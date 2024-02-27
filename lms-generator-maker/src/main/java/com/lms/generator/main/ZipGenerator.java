@@ -1,4 +1,4 @@
-package com.lms.lmscommon.meta.generator.main;
+package com.lms.generator.main;
 
 /**
  * 生成代码生成器的压缩文件

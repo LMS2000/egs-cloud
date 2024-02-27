@@ -109,3 +109,4 @@ fabric.properties
 /sqltool-gateway/target/
 /sqltool-sdk/target/
 /sqltool-server/target/
+/.temp/

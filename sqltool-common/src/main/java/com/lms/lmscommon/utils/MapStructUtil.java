@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.lms.lmscommon.meta.Meta;
+import com.lms.maker.meta.Meta;
 import org.mapstruct.Named;
 
 import java.util.List;

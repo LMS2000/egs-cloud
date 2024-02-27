@@ -1,11 +1,10 @@
-package com.lms.lmscommon.meta;
+package com.lms.maker.meta;
 
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
 @NoArgsConstructor
 @Data
 public class Meta {

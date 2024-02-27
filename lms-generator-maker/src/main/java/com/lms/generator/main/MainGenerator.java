@@ -1,4 +1,4 @@
-package com.lms.lmscommon.meta.generator.main;
+package com.lms.generator.main;
 
 
 import freemarker.template.TemplateException;

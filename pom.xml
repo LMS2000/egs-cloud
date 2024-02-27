@@ -14,6 +14,7 @@
     <module>sqltool-gateway</module>
     <module>sqltool-sdk</module>
     <module>sqltool-common</module>
+      <module>lms-generator-maker</module>
   </modules>
 
   <parent>

@@ -18,9 +18,11 @@ import java.util.List;
  */
 public class DictGenerator implements DataGenerator {
 
-    private DictService DictService;
+    private DictService dictService;
     private static final Gson GSON =new Gson();
-    public DictGenerator(){this.DictService = SpringContextUtils.getBean(DictService.class); }
+    public DictGenerator(){
+        this.dictService = SpringContextUtils.getBean(DictService.class);
+    }
 
 
     @Override
@@ -28,7 +30,7 @@ public class DictGenerator implements DataGenerator {
         String mockParams = field.getMockParams();
         long dictId = Long.parseLong(mockParams);
         List<String> result=new ArrayList<>();
-        Dict byId = DictService.getById(dictId);
+        Dict byId = dictService.getById(dictId);
         BusinessException.throwIf(byId==null, HttpCode.NOT_FOUND_ERROR,
                 "找不到词库");
         //TypeToken :这种写法能将返回一个json数据集合

@@ -91,7 +91,7 @@ public class LoginOauthAdapter implements LoginOauthTarget {
         if(ObjectUtils.isEmpty(user)){ //如果第一次登录
             String accessKey = DigestUtil.md5Hex(SALT + userName + RandomUtil.randomNumbers(5));
             String secretKey = DigestUtil.md5Hex(SALT + userName + RandomUtil.randomNumbers(8));
-            user=User.builder().nickname(userName).userAvatar(avatarUrl).username(RandomUtil.randomNumbers(8)).userPassword(userName).accessKey(accessKey).secretKey(secretKey).build();
+            user=User.builder().nickname(userName).userAvatar(avatarUrl).username(userName).userPassword(userName).accessKey(accessKey).secretKey(secretKey).build();
             userService.save(user);
         }
 //        UserVO userVO=new UserVO();

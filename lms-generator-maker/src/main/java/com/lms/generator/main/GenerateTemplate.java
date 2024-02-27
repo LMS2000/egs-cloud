@@ -1,19 +1,39 @@
-package com.lms.lmscommon.meta.generator.main;
+package com.lms.generator.main;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.ZipUtil;
-import com.lms.lmscommon.meta.Meta;
-import com.lms.lmscommon.meta.MetaManager;
+import com.lms.generator.JarGenerator;
+import com.lms.generator.ScriptGenerator;
+import com.lms.generator.file.DynamicFileGenerator;
+import com.lms.maker.meta.Meta;
+import com.lms.maker.meta.MetaManager;
+import freemarker.template.TemplateException;
 
 import java.io.File;
 import java.io.IOException;
 
 
 public  abstract class GenerateTemplate {
+    public void doGenerate(Meta meta, String outputPath)
+            throws TemplateException, IOException, InterruptedException {
+        // 1. 复制原始文件
+        String sourceCopyDestPath = copySource(meta, outputPath);
 
-    public void doGenerate() throws IOException, InterruptedException {
+        // 2. 代码生成
+        generateCode(meta, outputPath);
+
+        // 3. 构建 Jar 包
+        String jarPath = buildJar(meta, outputPath);
+
+        // 4. 封装脚本
+        String shellOutputFilePath = buildScript(outputPath, jarPath);
+
+        // 5. 生成精简版的程序（产物）
+        buildDist(outputPath, sourceCopyDestPath, jarPath, shellOutputFilePath);
+    }
+    public void doGenerate() throws TemplateException, IOException, InterruptedException {
         Meta metaObject = MetaManager.getMetaObject();
         System.out.println(metaObject);
 
@@ -30,7 +50,7 @@ public  abstract class GenerateTemplate {
         generateCode(metaObject,outputPath);
 
         //构建jar
-        String jarPath = builderJar(metaObject, outputPath);
+        String jarPath = buildJar(metaObject, outputPath);
 
         //构建脚本
         String shellPath = buildScript(outputPath, jarPath);
@@ -114,7 +134,7 @@ public  abstract class GenerateTemplate {
      * @param outputPath
      * @return
      */
-    protected String builderJar(Meta meta, String outputPath) throws IOException, InterruptedException {
+    protected String buildJar(Meta meta, String outputPath) throws IOException, InterruptedException {
         JarGenerator.doGenerate(outputPath);
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
         String jarPath = "target/" + jarName;
