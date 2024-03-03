@@ -29,8 +29,8 @@ public class UserAddRequest implements Serializable {
     /**
      * 账号
      */
-    @NotNull(message = "密码不能为空")
-    @NotBlank(message = "密码不能为空")
+    @NotNull(message = "账号不能为空")
+    @NotBlank(message = "账号不能为空")
     @Min(value = 4,message = "账号过短")
     @ApiModelProperty(value = "账号")
     private String username;
@@ -52,6 +52,9 @@ public class UserAddRequest implements Serializable {
      */
     @ApiModelProperty(value = "角色")
     private String userRole;
+
+    @ApiModelProperty(value = "简介")
+    private String profile;
 
     /**
      * 密码

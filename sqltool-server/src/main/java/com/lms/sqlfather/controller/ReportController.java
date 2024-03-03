@@ -19,8 +19,10 @@ import com.lms.sqlfather.service.ReportServiceFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class ReportController {
     @PostMapping("/add")
     @ApiOperationSupport(order =1)
     @ApiOperation(value = "创建")
-    public Long addReport(@RequestBody ReportAddRequest reportAddRequest) {
+    public Long addReport(@Validated  @RequestBody  ReportAddRequest reportAddRequest) {
         return reportServiceFacade.addReport(reportAddRequest);
     }
 
@@ -69,8 +71,7 @@ public class ReportController {
     @SaCheckLogin
     @ApiOperationSupport(order =2)
     @ApiOperation(value = "删除")
-    public Boolean deleteReport(@RequestBody DeleteRequest deleteRequest) {
-        BusinessException.throwIf(deleteRequest == null || deleteRequest.getId() <= 0);
+    public Boolean deleteReport(@Validated @RequestBody  DeleteRequest deleteRequest) {
         Long loginId = Long.parseLong((String) StpUtil.getLoginId());
         return reportServiceFacade.deleteReport(deleteRequest, loginId);
     }
@@ -85,7 +86,7 @@ public class ReportController {
     @SaCheckRole(UserConstant.ADMIN_ROLE)
     @ApiOperationSupport(order =3)
     @ApiOperation(value = "更新（仅管理员）")
-    public Boolean updateReport(@RequestBody ReportUpdateRequest reportUpdateRequest) {
+    public Boolean updateReport(@Validated @RequestBody  ReportUpdateRequest reportUpdateRequest) {
         return reportService.updateReport(reportUpdateRequest);
     }
 

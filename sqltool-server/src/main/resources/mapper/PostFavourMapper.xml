@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lms.sqlfather.mapper.PostFavourMapper">
+
+<!--    <resultMap id="BaseResultMap" type="com.yupi.yuso.model.entity.PostFavour">-->
+<!--        <id property="id" column="id" jdbcType="BIGINT"/>-->
+<!--        <result property="postId" column="postId" jdbcType="BIGINT"/>-->
+<!--        <result property="userId" column="userId" jdbcType="BIGINT"/>-->
+<!--        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>-->
+<!--        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>-->
+<!--    </resultMap>-->
+
+    <sql id="Base_Column_List">
+        id,post_d,user_id,
+        create_time,update_time
+    </sql>
+
+    <select id="listFavourPostByPage"
+            resultType="com.lms.lmscommon.model.entity.Generator">
+        select g.*
+        from generator g
+                 join (select post_id from post_favour where user_id = #{favourUserId}) pf
+                      on g.id = pf.post_id ${ew.customSqlSegment}
+    </select>
+</mapper>

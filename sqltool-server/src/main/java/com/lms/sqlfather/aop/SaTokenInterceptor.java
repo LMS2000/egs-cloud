@@ -20,7 +20,7 @@ public class SaTokenInterceptor implements StpInterface {
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        User user = userService.getById(loginType);
+        User user = userService.getById(Long.parseLong((String)loginId));
         return Collections.singletonList(user.getUserRole());
     }
 }

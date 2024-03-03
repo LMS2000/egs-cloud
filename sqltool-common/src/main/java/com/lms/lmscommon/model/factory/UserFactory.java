@@ -2,8 +2,7 @@ package com.lms.lmscommon.model.factory;
 
 import com.lms.lmscommon.model.entity.User;
 import com.lms.lmscommon.model.vo.user.UserVO;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -13,11 +12,10 @@ public class UserFactory {
 
     @Mapper
     public interface UserConverter {
-        @Mappings({
-
-        })
+        @Mapping(target = "tags",  expression = "java(com.lms.lmscommon.utils.MapStructUtil.convertToList(user.getTags()))")
+        @Named("toUserVo")
         UserVO toUserVo(User user);
-
-        List<UserVO> toListUserVo(List<User> fileList);
+        @IterableMapping(qualifiedByName = "toUserVo")
+        List<UserVO> toListUserVo(List<User> userList);
     }
 }

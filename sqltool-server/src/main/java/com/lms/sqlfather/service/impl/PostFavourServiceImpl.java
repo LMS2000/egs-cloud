@@ -5,31 +5,33 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lms.contants.HttpCode;
 import com.lms.lmscommon.model.dto.postfavour.PostFavourQueryRequest;
-import com.lms.lmscommon.model.entity.Post;
+import com.lms.lmscommon.model.entity.Generator;
 import com.lms.lmscommon.model.entity.PostFavour;
-import com.lms.lmscommon.model.vo.post.PostVO;
 import com.lms.lmscommon.common.BusinessException;
+import com.lms.lmscommon.model.vo.generator.GeneratorVO;
 import com.lms.sqlfather.mapper.PostFavourMapper;
+import com.lms.sqlfather.service.GeneratorService;
 import com.lms.sqlfather.service.PostFavourService;
-import com.lms.sqlfather.service.PostService;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
-import static com.lms.lmscommon.model.factory.PostFactory.POST_CONVERTER;
+import static com.lms.lmscommon.model.factory.GeneratorFactory.GENERATOR_CONVERTER;
+
 
 /**
  * 帖子收藏服务实现
  *
+ * @author lms2000
  */
 @Service
 public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFavour>
         implements PostFavourService {
 
     @Resource
-    private PostService postService;
+    private GeneratorService generatorService;
 
     /**
      * 帖子收藏
@@ -41,7 +43,7 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
     @Override
     public Integer doPostFavour(Long postId, Long uid) {
         // 判断是否存在
-        Post post = postService.getById(postId);
+        Generator post = generatorService.getById(postId);
         BusinessException.throwIf(post==null);
         // 是否已帖子收藏
         // 每个用户串行帖子收藏
@@ -53,7 +55,7 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
     }
 
     @Override
-    public Page<PostVO> listFavourPostByPage(PostFavourQueryRequest postFavourQueryRequest, Long favourUserId) {
+    public Page<GeneratorVO> listFavourPostByPage(PostFavourQueryRequest postFavourQueryRequest, Long favourUserId) {
         if (favourUserId <= 0) {
             return new Page<>();
         }
@@ -61,10 +63,10 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
         Long size = postFavourQueryRequest.getPageSize();
         // 限制爬虫
         BusinessException.throwIf(size>20);
-        Page<Post> postPage = baseMapper.listFavourPostByPage(new Page<>(current, size),
-                postService.getQueryWrapper(postFavourQueryRequest.getPostQueryRequest()),favourUserId);
-        Page<PostVO> postVOPage=new Page<>(current,size);
-        postVOPage.setRecords(POST_CONVERTER.toListPostVO(postPage.getRecords()));
+        Page<Generator> postPage = baseMapper.listFavourPostByPage(new Page<>(current, size),
+                generatorService.getQueryWrapper(postFavourQueryRequest.getGeneratorQueryRequest()),favourUserId);
+        Page<GeneratorVO> postVOPage=new Page<>(current,size);
+        postVOPage.setRecords(GENERATOR_CONVERTER.toListGeneratorVO(postPage.getRecords()));
         postVOPage.setTotal(postPage.getTotal());
         return postVOPage;
     }
@@ -90,7 +92,7 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
             result = this.remove(postFavourQueryWrapper);
             if (result) {
                 // 帖子收藏数 - 1
-                result = postService.update()
+                result = generatorService.update()
                         .eq("id", postId)
                         .gt("favour_num", 0)
                         .setSql("favour_num = favour_num - 1")
@@ -104,7 +106,7 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
             result = this.save(postFavour);
             if (result) {
                 // 帖子收藏数 + 1
-                result = postService.update()
+                result = generatorService.update()
                         .eq("id", postId)
                         .setSql("favour_num = favour_num + 1")
                         .update();

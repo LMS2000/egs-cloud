@@ -2,6 +2,8 @@ package com.lms.lmscommon.model.dto.postthumb;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 /**
@@ -14,9 +16,11 @@ import java.io.Serializable;
 public class PostThumbAddRequest implements Serializable {
 
     /**
-     * 帖子 id
+     * 生成器 id
      */
-    private Long postId;
+    @NotNull(message = "生成器id不能为空")
+    @Positive(message = "id不合法")
+    private Long generatorId;
 
     private static final long serialVersionUID = 1L;
 }

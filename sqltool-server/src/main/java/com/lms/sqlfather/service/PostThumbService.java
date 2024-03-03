@@ -8,24 +8,25 @@ import com.lms.lmscommon.model.vo.user.UserVO;
 /**
  * 帖子点赞服务
  *
+ * @author lms2000
  */
 public interface PostThumbService extends IService<PostThumb> {
 
     /**
      * 点赞
      *
-     * @param postId
+     * @param generatorId
      * @param loginUser
      * @return
      */
-    int doPostThumb(long postId, UserVO loginUser);
+    Integer doPostThumb(Long generatorId, UserVO loginUser);
 
     /**
      * 帖子点赞（内部服务）
      *
      * @param userId
-     * @param postId
+     * @param generatorId
      * @return
      */
-    int doPostThumbInner(long userId, long postId);
+    Integer doPostThumbInner(Long userId, Long generatorId);
 }

@@ -3,10 +3,9 @@ package com.lms.lmscommon.model.dto.user;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 
@@ -16,6 +15,7 @@ import java.io.Serializable;
  * @since 2024-02-01
  */
 @Data
+@Validated
 @ApiModel(value = "UserLoginRequest对象", description = "用户登录")
 public class UserLoginRequest implements Serializable {
 
@@ -25,16 +25,17 @@ public class UserLoginRequest implements Serializable {
      */
     @NotNull(message = "账号不能为空")
     @NotBlank(message = "账号不能为空")
-    @Min(value = 4,message = "账号过短")
+//    @Min(value = 4)
+    @Size(min = 4,message = "账号不能小于4位")
     @ApiModelProperty(value = "账号")
-    private String username;
+    private String account;
 
     /**
      * 密码
      */
     @NotNull(message = "密码不能为空")
     @NotBlank(message = "密码不能为空")
-    @Min(value = 8,message = "密码过长")
+    @Size(min = 8,message = "密码过短")
     @ApiModelProperty(value = "用户密码")
     private String userPassword;
 

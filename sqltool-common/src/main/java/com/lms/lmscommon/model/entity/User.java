@@ -42,6 +42,11 @@ public class User extends DeleteFlagEntity {
     private Integer gender;
 
     /**
+     * 标签列表(json)
+     */
+    private String tags;
+
+    /**
      * 用户角色: user, admin
      */
     private String userRole;

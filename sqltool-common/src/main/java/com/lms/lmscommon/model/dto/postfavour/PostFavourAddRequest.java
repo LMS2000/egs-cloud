@@ -17,11 +17,11 @@ import java.io.Serializable;
 public class PostFavourAddRequest implements Serializable {
 
     /**
-     * 帖子 id
+     * 生成器 id
      */
-    @NotNull(message = "帖子id不能为空")
+    @NotNull(message = "生成器id不能为空")
     @Positive(message = "id不合法")
-    private Long postId;
+    private Long generatorId;
 
     private static final long serialVersionUID = 1L;
 }

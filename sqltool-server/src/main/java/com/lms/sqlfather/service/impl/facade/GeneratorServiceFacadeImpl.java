@@ -32,6 +32,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.lms.lmscommon.model.factory.GeneratorFactory.GENERATOR_CONVERTER;
+
 @Service
 @Slf4j
 public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
@@ -64,11 +66,11 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
 
     @Override
     public GeneratorVO getGeneratorVO(Generator generator, Long userId) {
-        GeneratorVO generatorVO = GeneratorVO.objToVo(generator);
+        GeneratorVO generatorVO = GENERATOR_CONVERTER.toGeneratorVO(generator);
         // 1. 关联查询用户信息
         User user = null;
         if (userId != null && userId > 0) {
-            user = userService.getById(userId);
+            user = userService.getById(generatorVO.getUserId());
         }
         UserVO userVO = userService.getUserVO(user);
         generatorVO.setUser(userVO);
@@ -88,7 +90,7 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
                 .collect(Collectors.groupingBy(User::getId));
         // 填充信息
         List<GeneratorVO> generatorVOList = generatorList.stream().map(generator -> {
-            GeneratorVO generatorVO = GeneratorVO.objToVo(generator);
+            GeneratorVO generatorVO =GENERATOR_CONVERTER.toGeneratorVO(generator);
             Long userId = generator.getUserId();
             User user = null;
             if (userIdUserListMap.containsKey(userId)) {
@@ -147,6 +149,7 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
         );
         Page<Generator> generatorPage = generatorService.page(new Page<>(current, size), queryWrapper);
         Page<GeneratorVO> generatorVOPage = this.getGeneratorVOPage(generatorPage);
+
         // 写入缓存
 //        redisCache.setCacheObject(cacheKey, generatorVOPage);
         return generatorVOPage;

@@ -65,9 +65,10 @@ public class LogInterceptor {
             this.logIngHeaders(request, level, logItem);
             long startNs = System.nanoTime();
             boolean flag = false;
+            Object result;
             try {
                 flag = true;
-                Object result = joinPoint.proceed();
+                 result = joinPoint.proceed();
                 if (AppLogLevel.BODY.lte(level)) {
                     logItem.putIfAbsent("response", JSONUtil.toJsonStr(result));
                 }
@@ -82,7 +83,7 @@ public class LogInterceptor {
             long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
             logItem.putIfAbsent("costTime", tookMs);
             log.info("{}", logItem.toStringPretty());
-            return joinPoint.proceed();
+            return result;
         }
      }
 

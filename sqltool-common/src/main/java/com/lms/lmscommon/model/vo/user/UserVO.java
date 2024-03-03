@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户视图
@@ -43,6 +44,17 @@ public class UserVO extends BaseVO {
      */
     @ApiModelProperty("性别")
     private Integer gender;
+
+    /**
+     * 标签列表
+     */
+    @ApiModelProperty("标签列表")
+    private List<String> tags;
+    /**
+     * 简介
+     */
+    @ApiModelProperty("简介")
+    private String profile;
 
     /**
      * 用户角色: user, admin

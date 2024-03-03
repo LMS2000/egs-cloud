@@ -73,7 +73,7 @@ public class DictController {
     @SaCheckLogin
     @ApiOperationSupport(order = 2)
     @ApiOperation(value = "根据id删除dict")
-    public Boolean deleteDict(@RequestBody DeleteRequest deleteRequest) {
+    public Boolean deleteDict(@RequestBody @Valid DeleteRequest deleteRequest) {
         return dictServiceFacade.deleteDict(deleteRequest);
     }
 

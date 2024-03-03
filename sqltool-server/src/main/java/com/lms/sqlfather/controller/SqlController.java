@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
 /**
  * sql生成控制类
@@ -65,7 +66,7 @@ public class SqlController {
     @PostMapping(value = "/generate/sdk")
     @ApiOperationSupport(order =2)
     @ApiOperation(value = "对sdk使用的接口")
-    public GenerateVO generateDataForSdk(@RequestBody GenerateBySqlRequest sqlRequest, HttpServletRequest request){
+    public GenerateVO generateDataForSdk(@RequestBody  GenerateBySqlRequest sqlRequest, HttpServletRequest request){
         //校验签字，时间戳，公钥
         BusinessException.throwIf(sqlRequest == null);
 

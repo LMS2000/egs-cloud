@@ -73,14 +73,13 @@ public class UserController {
     /**
      * 上传头像
      * @param file
-     * @param request
      * @return
      */
     @PostMapping("/upload")
     @SaCheckLogin
     @ApiOperationSupport(order =2)
     @ApiOperation(value = "上传头像")
-    public String uploadAvatar(MultipartFile file, HttpServletRequest request) {
+    public String uploadAvatar(MultipartFile file) {
         Long loginId = Long.parseLong((String) StpUtil.getLoginId());
         return userService.uploadUserAvatar(file, loginId);
     }
@@ -95,7 +94,7 @@ public class UserController {
     @SaCheckLogin
     @ApiOperationSupport(order =3)
     @ApiOperation(value = "用邮箱来设置密码")
-    public Boolean findBackNewPassword(@RequestBody UserFindBackPasswordRequest userFindBackPasswordRequest) {
+    public Boolean findBackNewPassword(@Validated @RequestBody  UserFindBackPasswordRequest userFindBackPasswordRequest) {
         return userService.updatePasswordByFindBack(userFindBackPasswordRequest);
     }
 
@@ -137,7 +136,7 @@ public class UserController {
     @PostMapping("/sendEmailCode")
     @ApiOperationSupport(order =5)
     @ApiOperation(value = "type 0 为注册 1 为找回密码")
-    public Boolean sendEmailCode(HttpSession session, @Validated @RequestBody SendEmailRequest sendEmailRequest) {
+    public Boolean sendEmailCode(HttpSession session, @Validated  @RequestBody  SendEmailRequest sendEmailRequest) {
         String code = sendEmailRequest.getCode();
         try {
             if (!code.equalsIgnoreCase((String) session.getAttribute(EmailConstant.CHECK_CODE_KEY_EMAIL))) {
@@ -160,7 +159,7 @@ public class UserController {
     @PostMapping("/register")
     @ApiOperationSupport(order =6)
     @ApiOperation(value = "注册")
-    public Long registerUser(@RequestBody(required = true) UserRegisterRequest userRegisterRequest, HttpSession session) {
+    public Long registerUser(@Validated @RequestBody(required = true) UserRegisterRequest userRegisterRequest, HttpSession session) {
 
         try {
             String email = userRegisterRequest.getEmail();
@@ -182,8 +181,7 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperationSupport(order =7)
     @ApiOperation(value = "登录")
-    public UserVO userLogin(@RequestBody(required = true) UserLoginRequest userLoginRequest, HttpServletRequest request) {
-
+    public UserVO userLogin(@Validated @RequestBody  UserLoginRequest userLoginRequest, HttpServletRequest request) {
         try {
             //校验码校验
             String trueCode = (String) request.getSession().getAttribute(EmailConstant.CHECK_CODE_KEY);
@@ -234,12 +232,13 @@ public class UserController {
     @SaCheckRole(UserConstant.ADMIN_ROLE)
     @ApiOperationSupport(order =10)
     @ApiOperation(value = "添加用户")
-    public Long add(@RequestBody(required = true) UserAddRequest userAddRequest) {
+    public Long add(@Validated @RequestBody UserAddRequest userAddRequest) {
         return userService.addUser(userAddRequest);
     }
 
     /**
      * 删除用户
+     *
      *
      * @param deleteRequest
      * @return
@@ -248,7 +247,7 @@ public class UserController {
     @SaCheckRole(UserConstant.ADMIN_ROLE)
     @ApiOperationSupport(order =11)
     @ApiOperation(value = "删除用户")
-    public Boolean delete(@RequestBody DeleteRequest deleteRequest) {
+    public Boolean delete(@Validated @RequestBody  DeleteRequest deleteRequest) {
         BusinessException.throwIf(deleteRequest == null || deleteRequest.getId() <= 0);
         return userService.removeById(deleteRequest.getId());
     }
@@ -263,7 +262,7 @@ public class UserController {
     @PostMapping("/update/current")
     @ApiOperationSupport(order =12)
     @ApiOperation(value = "当前用户修改")
-    public Boolean updateCurrentUser(@RequestBody UserUpdateRequest userUpdateRequest) {
+    public Boolean updateCurrentUser(@Validated @RequestBody  UserUpdateRequest userUpdateRequest) {
         Long loginId = Long.parseLong((String) StpUtil.getLoginId());
         userUpdateRequest.setId(loginId);
         return userService.updateCurrentUser(userUpdateRequest);
@@ -279,7 +278,7 @@ public class UserController {
     @SaCheckRole(UserConstant.ADMIN_ROLE)
     @ApiOperationSupport(order =13)
     @ApiOperation(value = "修改用户")
-    public Boolean updateUser(@RequestBody UserUpdateRequest userUpdateRequest) {
+    public Boolean updateUser(@Validated @RequestBody  UserUpdateRequest userUpdateRequest) {
         BusinessException.throwIf(userUpdateRequest == null || userUpdateRequest.getId() == null);
         User user = new User();
         BeanUtils.copyProperties(userUpdateRequest, user);

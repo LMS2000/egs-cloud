@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class FieldInfoController {
     @SaCheckLogin
     @ApiOperationSupport(order = 1)
     @ApiOperation(value = "创建字段信息")
-    public Long addFieldInfo(@RequestBody FieldInfoAddRequest fieldInfoAddRequest) {
+    public Long addFieldInfo(@RequestBody @Valid FieldInfoAddRequest fieldInfoAddRequest) {
         BusinessException.throwIf(fieldInfoAddRequest == null);
         return fieldInfoService.addField(fieldInfoAddRequest);
     }
@@ -73,7 +74,7 @@ public class FieldInfoController {
     @SaCheckLogin
     @ApiOperationSupport(order = 2)
     @ApiOperation(value = "删除")
-    public Boolean deleteFieldInfo(@RequestBody DeleteRequest deleteRequest) {
+    public Boolean deleteFieldInfo(@RequestBody @Valid DeleteRequest deleteRequest) {
         Long loginId = Long.parseLong((String) StpUtil.getLoginId());
         return fieldInfoServiceFacade.deleteFieldInfo(deleteRequest,loginId);
     }
@@ -88,7 +89,7 @@ public class FieldInfoController {
     @SaCheckRole(UserConstant.ADMIN_ROLE)
     @ApiOperationSupport(order = 3)
     @ApiOperation(value = "修改")
-    public Boolean updateFieldInfo(@RequestBody FieldInfoUpdateRequest fieldInfoUpdateRequest) {
+    public Boolean updateFieldInfo(@RequestBody  FieldInfoUpdateRequest fieldInfoUpdateRequest) {
 
         BusinessException.throwIf(fieldInfoUpdateRequest == null || fieldInfoUpdateRequest.getId() <= 0);
         FieldInfo fieldInfo = new FieldInfo();

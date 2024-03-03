@@ -13,6 +13,7 @@ import com.lms.sqlfather.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,23 +43,18 @@ public class PostThumbController {
      * 点赞 / 取消点赞
      *
      * @param postThumbAddRequest
-     * @param request
      * @return resultNum 本次点赞变化数
      */
     @PostMapping()
     @SaCheckLogin
     @ApiOperationSupport(order =1)
     @ApiOperation(value = "点赞 / 取消点赞")
-    public Integer doThumb(@RequestBody PostThumbAddRequest postThumbAddRequest,
-            HttpServletRequest request) {
-        if (postThumbAddRequest == null || postThumbAddRequest.getPostId() <= 0) {
-            throw new BusinessException(HttpCode.PARAMS_ERROR);
-        }
+    public Integer doThumb( @Validated @RequestBody PostThumbAddRequest postThumbAddRequest) {
         // 登录才能点赞
         Long loginId =Long.parseLong((String) StpUtil.getLoginId());
         final  UserVO loginUser = userService.getUserVO(userService.getById(loginId));
-        long postId = postThumbAddRequest.getPostId();
-        return PostThumbService.doPostThumb(postId, loginUser);
+        Long generatorId = postThumbAddRequest.getGeneratorId();
+        return PostThumbService.doPostThumb(generatorId, loginUser);
     }
 
 }

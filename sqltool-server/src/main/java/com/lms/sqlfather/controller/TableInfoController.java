@@ -19,6 +19,7 @@ import com.lms.sqlfather.service.TableInfoServiceFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -57,7 +58,7 @@ public class TableInfoController {
     @SaCheckLogin
     @ApiOperationSupport(order =1)
     @ApiOperation(value = "创建表信息")
-    public Long add(@RequestBody @Valid TableInfoAddRequest tableInfoAddRequest) {
+    public Long add(@Validated @RequestBody  TableInfoAddRequest tableInfoAddRequest) {
         return tableInfoService.addTableInfo(tableInfoAddRequest);
     }
 
@@ -72,7 +73,7 @@ public class TableInfoController {
     @SaCheckLogin
     @ApiOperationSupport(order =2)
     @ApiOperation(value = "删除")
-    public Boolean delete(@RequestBody DeleteRequest deleteRequest) {
+    public Boolean delete(@Validated @RequestBody DeleteRequest deleteRequest) {
         Long loginId = Long.parseLong((String) StpUtil.getLoginId());
         return tableInfoServiceFacade.deleteFieldInfo(deleteRequest, loginId);
     }
@@ -87,7 +88,7 @@ public class TableInfoController {
     @SaCheckRole(UserConstant.ADMIN_ROLE)
     @ApiOperationSupport(order =3)
     @ApiOperation(value = "修改")
-    public Boolean update(@RequestBody TableInfoUpdateRequest tableInfoUpdateRequest) {
+    public Boolean update(@Validated @RequestBody  TableInfoUpdateRequest tableInfoUpdateRequest) {
         return tableInfoService.updateTableInfo(tableInfoUpdateRequest);
     }
 

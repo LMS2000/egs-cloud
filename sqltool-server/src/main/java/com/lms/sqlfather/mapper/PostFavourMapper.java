@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lms.lmscommon.model.entity.Post;
+import com.lms.lmscommon.model.entity.Generator;
 import com.lms.lmscommon.model.entity.PostFavour;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,8 +24,8 @@ public interface PostFavourMapper extends BaseMapper<PostFavour> {
      * @param favourUserId
      * @return
      */
-    Page<Post> listFavourPostByPage(IPage<Post> page, @Param(Constants.WRAPPER) Wrapper<Post> queryWrapper,
-                                    long favourUserId);
+    Page<Generator> listFavourPostByPage(IPage<Generator> page, @Param(Constants.WRAPPER) Wrapper<Generator> queryWrapper,
+                                         long favourUserId);
 
 }
 

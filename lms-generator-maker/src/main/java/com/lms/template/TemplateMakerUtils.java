@@ -14,7 +14,6 @@ public class TemplateMakerUtils {
 
     public static List<Meta.FileConfig.FileInfo> removeGroupFilesFromRoot(List<Meta.FileConfig.FileInfo> fileInfoList){
 
-
         // 先获取到所有分组
         List<Meta.FileConfig.FileInfo> groupFileInfoList = fileInfoList.stream()
                 .filter(fileInfo -> StrUtil.isNotBlank(fileInfo.getGroupKey()))

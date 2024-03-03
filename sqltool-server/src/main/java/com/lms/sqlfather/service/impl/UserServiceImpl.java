@@ -221,9 +221,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (user == null) {
             return null;
         }
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
-        return userVO;
+        return USER_CONVERTER.toUserVo(user);
     }
 
 
@@ -286,7 +284,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public UserVO userLogin(UserLoginRequest userLoginRequest) {
 
-        String username = userLoginRequest.getUsername();
+        String username = userLoginRequest.getAccount();
         String userPassword = userLoginRequest.getUserPassword();
         // 2. 加密
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());

@@ -7,7 +7,6 @@ import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.*;
 import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
@@ -49,6 +48,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -251,11 +251,11 @@ public class GeneratorController {
 //        }
 
         try {
-            String objectURL = client.getObjectURL(FileConstant.BUCKET_NAME, filepath);
-            // 处理下载到的流
-            byte[] bytes = objectURL.getBytes(StandardCharsets.UTF_8);
-            // 写入响应
-            response.getOutputStream().write(bytes);
+            GetObjectRequest getObjectRequest=new GetObjectRequest(FileConstant.BUCKET_NAME, filepath);
+            S3Object s3Object = client.getS3Client().getObject(getObjectRequest);
+            S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
+            // 使用 IOUtils.copy() 方法将输入流内容复制到输出流（本地文件）
+            IOUtils.copy(objectInputStream, response.getOutputStream());
             response.getOutputStream().flush();
         } catch (Exception e) {
             log.error("file download error, filepath = " + filepath, e);
@@ -300,10 +300,13 @@ public class GeneratorController {
             FileUtil.touch(zipFilePath);
         }
         try {
-            String objectURL = client.getObjectURL(FileConstant.BUCKET_NAME, distPath);
-            // 处理下载到的流
-            byte[] bytes = objectURL.getBytes(StandardCharsets.UTF_8);
-            FileUtil.writeBytes(bytes,zipFilePath);
+            GetObjectRequest getObjectRequest=new GetObjectRequest(FileConstant.BUCKET_NAME, distPath);
+            S3Object s3Object = client.getS3Client().getObject(getObjectRequest);
+            S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
+            // 使用 IOUtils.copy() 方法将输入流内容复制到输出流（本地文件）
+            try (FileOutputStream fileOutputStream = new FileOutputStream(zipFilePath)) {
+                IOUtils.copy(objectInputStream, fileOutputStream);
+            }
         } catch (Exception e) {
             throw new BusinessException(HttpCode.SYSTEM_ERROR, "生成器下载失败");
         }
@@ -397,8 +400,6 @@ public class GeneratorController {
 
         // 1) 输入参数
         Meta meta = generatorMakeRequest.getMeta();
-
-        System.out.println(JSONObject.toJSONString(generatorMakeRequest.getMeta()));
         String zipFilePath = generatorMakeRequest.getZipFilePath();
 
         // 需要用户登录

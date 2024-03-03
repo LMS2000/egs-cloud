@@ -104,12 +104,16 @@ public class FileController {
         long fileSize = multipartFile.getSize();
         // 文件后缀
         String fileSuffix = FileUtil.getSuffix(multipartFile.getOriginalFilename());
-        if (FileUploadBizEnum.USER_AVATAR.equals(fileUploadBizEnum)) {
+        if (FileUploadBizEnum.USER_AVATAR.equals(fileUploadBizEnum)||FileUploadBizEnum.GENERATOR_PICTURE.equals(fileUploadBizEnum)) {
             if (fileSize > FileConstant.ONE_M) {
                 throw new BusinessException(HttpCode.PARAMS_ERROR, "文件大小不能超过 1M");
             }
             if (!Arrays.asList("jpeg", "jpg", "svg", "png", "webp").contains(fileSuffix)) {
                 throw new BusinessException(HttpCode.PARAMS_ERROR, "文件类型错误");
+            }
+        }else{
+            if(!"zip".equals(fileSuffix)){
+                throw new BusinessException(HttpCode.PARAMS_ERROR,"仅支持zip压缩文件");
             }
         }
     }
