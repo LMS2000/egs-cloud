@@ -24,7 +24,7 @@ public interface GeneratorServiceFacade {
      * @param generator
      * @return
      */
-    GeneratorVO getGeneratorVO(Generator generator, Long userId);
+    GeneratorVO getGeneratorVO(Generator generator);
 
     /**
      * 分页获取帖子封装
@@ -36,7 +36,7 @@ public interface GeneratorServiceFacade {
 
 
     /**
-     *
+     * 分页接口
      * @param generatorQueryRequest
      * @return
      */
@@ -57,5 +57,19 @@ public interface GeneratorServiceFacade {
     Page<GeneratorVO> listMyGeneratorVOByPage(GeneratorQueryRequest generatorQueryRequest);
 
 
+    /**
+     * 编辑生成器
+     * @param generatorEditRequest
+     * @return
+     */
     Boolean editGenerator( GeneratorEditRequest generatorEditRequest);
+
+
+    /**
+     * 根据id查询生成器VO 携带点赞和收藏
+     * @param id
+     * @param userId
+     * @return
+     */
+    GeneratorVO getGeneratorWithStarAndFavour(Long id,Long userId);
 }

@@ -8,6 +8,7 @@ import com.lms.contants.HttpCode;
 import com.lms.lmscommon.model.dto.postthumb.PostThumbAddRequest;
 import com.lms.lmscommon.model.vo.user.UserVO;
 import com.lms.lmscommon.common.BusinessException;
+import com.lms.result.EnableResponseAdvice;
 import com.lms.sqlfather.service.PostThumbService;
 import com.lms.sqlfather.service.UserService;
 import io.swagger.annotations.Api;
@@ -31,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/post/thumb")
 @Slf4j
 @Api(value = "帖子点赞")
+@EnableResponseAdvice
 public class PostThumbController {
 
     @Resource

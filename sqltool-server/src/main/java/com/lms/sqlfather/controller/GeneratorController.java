@@ -137,8 +137,23 @@ public class GeneratorController {
         if (ObjectUtil.isEmpty(generator)) {
             throw new BusinessException(HttpCode.NOT_FOUND_ERROR);
         }
-        Long loginId = Long.parseLong((String) StpUtil.getLoginId());
-        return generatorServiceFacade.getGeneratorVO(generator,loginId);
+        return generatorServiceFacade.getGeneratorVO(generator);
+    }
+
+    /**
+     * 根据id查询携带点赞收藏的生成器信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/get/vo/with")
+    @ApiOperationSupport(order = 5)
+    @ApiOperation(value = "根据id获取")
+    public GeneratorVO getGernertorByIdWithStarAndFavour(@Positive(message = "id不合法") Long id){
+        Long userId = null;
+        if(StpUtil.isLogin()){
+            userId= Long.parseLong((String) StpUtil.getLoginId());
+        }
+        return generatorServiceFacade.getGeneratorWithStarAndFavour(id,userId);
     }
 
     /**

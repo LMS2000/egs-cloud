@@ -91,6 +91,31 @@ public class GeneratorVO extends BaseVO {
     @ApiModelProperty("代码生成器状态")
     private Integer status;
 
+
+    /**
+     * 点赞数量
+     */
+    @ApiModelProperty("点赞数量")
+    private Integer thumbNum;
+
+    /**
+     * 收藏数量
+     */
+    @ApiModelProperty("收藏数量")
+    private Integer favourNum;
+
+
+    /**
+     * 当前用户是否点赞
+     */
+    @ApiModelProperty("当前用户是否点赞")
+    private Integer stared;
+
+    /**
+     * 当前用户是否收藏
+     */
+    @ApiModelProperty("当前用户是否收藏")
+    private Integer favoured;
     /**
      * 创建用户 id
      */
@@ -107,44 +132,44 @@ public class GeneratorVO extends BaseVO {
 
 
 
-    /**
-     * 包装类转对象
-     *
-     * @param generatorVO
-     * @return
-     */
-    public static Generator voToObj(GeneratorVO generatorVO) {
-        if (generatorVO == null) {
-            return null;
-        }
-        Generator generator = new Generator();
-        BeanUtils.copyProperties(generatorVO, generator);
-        List<String> tagList = generatorVO.getTags();
-        generator.setTags(JSONUtil.toJsonStr(tagList));
-        Meta.FileConfig fileConfig = generatorVO.getFileConfig();
-        generator.setFileConfig(JSONUtil.toJsonStr(fileConfig));
-        Meta.ModelConfig modelConfig = generatorVO.getModelConfig();
-        generator.setModelConfig(JSONUtil.toJsonStr(modelConfig));
-        return generator;
-    }
-
-    /**
-     * 对象转包装类
-     *
-     * @param generator
-     * @return
-     */
-    public static GeneratorVO objToVo(Generator generator) {
-        if (generator == null) {
-            return null;
-        }
-        GeneratorVO generatorVO = new GeneratorVO();
-        BeanUtils.copyProperties(generator, generatorVO);
-        generatorVO.setTags(JSONUtil.toList(generator.getTags(), String.class));
-        generatorVO.setFileConfig(JSONUtil.toBean(generator.getFileConfig(), Meta.FileConfig.class));
-        generatorVO.setModelConfig(JSONUtil.toBean(generator.getModelConfig(), Meta.ModelConfig.class));
-        return generatorVO;
-    }
+//    /**
+//     * 包装类转对象
+//     *
+//     * @param generatorVO
+//     * @return
+//     */
+//    public static Generator voToObj(GeneratorVO generatorVO) {
+//        if (generatorVO == null) {
+//            return null;
+//        }
+//        Generator generator = new Generator();
+//        BeanUtils.copyProperties(generatorVO, generator);
+//        List<String> tagList = generatorVO.getTags();
+//        generator.setTags(JSONUtil.toJsonStr(tagList));
+//        Meta.FileConfig fileConfig = generatorVO.getFileConfig();
+//        generator.setFileConfig(JSONUtil.toJsonStr(fileConfig));
+//        Meta.ModelConfig modelConfig = generatorVO.getModelConfig();
+//        generator.setModelConfig(JSONUtil.toJsonStr(modelConfig));
+//        return generator;
+//    }
+//
+//    /**
+//     * 对象转包装类
+//     *
+//     * @param generator
+//     * @return
+//     */
+//    public static GeneratorVO objToVo(Generator generator) {
+//        if (generator == null) {
+//            return null;
+//        }
+//        GeneratorVO generatorVO = new GeneratorVO();
+//        BeanUtils.copyProperties(generator, generatorVO);
+//        generatorVO.setTags(JSONUtil.toList(generator.getTags(), String.class));
+//        generatorVO.setFileConfig(JSONUtil.toBean(generator.getFileConfig(), Meta.FileConfig.class));
+//        generatorVO.setModelConfig(JSONUtil.toBean(generator.getModelConfig(), Meta.ModelConfig.class));
+//        return generatorVO;
+//    }
 
 
 }

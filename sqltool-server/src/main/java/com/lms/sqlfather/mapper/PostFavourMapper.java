@@ -25,7 +25,7 @@ public interface PostFavourMapper extends BaseMapper<PostFavour> {
      * @return
      */
     Page<Generator> listFavourPostByPage(IPage<Generator> page, @Param(Constants.WRAPPER) Wrapper<Generator> queryWrapper,
-                                         long favourUserId);
+                                         @Param("favourUserId") long favourUserId);
 
 }
 

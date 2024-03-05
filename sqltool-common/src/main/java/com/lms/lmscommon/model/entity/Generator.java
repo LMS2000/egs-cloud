@@ -70,6 +70,16 @@ public class Generator extends DeleteFlagEntity {
     private String distPath;
 
     /**
+     * 点赞数量
+     */
+    private Integer thumbNum;
+
+    /**
+     * 收藏数量
+     */
+    private Integer favourNum;
+
+    /**
      * 状态
      */
     private Integer status;

@@ -2,6 +2,7 @@ package com.lms.sqlfather.service.impl.facade;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,15 +12,15 @@ import com.lms.lmscommon.constant.UserConstant;
 import com.lms.lmscommon.model.dto.generator.GeneratorEditRequest;
 import com.lms.lmscommon.model.dto.generator.GeneratorQueryRequest;
 import com.lms.lmscommon.model.entity.Generator;
+import com.lms.lmscommon.model.entity.PostFavour;
+import com.lms.lmscommon.model.entity.PostThumb;
 import com.lms.lmscommon.model.entity.User;
 import com.lms.lmscommon.model.vo.generator.GeneratorVO;
 import com.lms.lmscommon.model.vo.user.UserVO;
 import com.lms.maker.meta.Meta;
 import com.lms.redis.RedisCache;
 import com.lms.lmscommon.common.BusinessException;
-import com.lms.sqlfather.service.GeneratorService;
-import com.lms.sqlfather.service.GeneratorServiceFacade;
-import com.lms.sqlfather.service.UserService;
+import com.lms.sqlfather.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ import java.util.stream.Collectors;
 
 import static com.lms.lmscommon.model.factory.GeneratorFactory.GENERATOR_CONVERTER;
 
+/**
+ * @author lms2000
+ */
 @Service
 @Slf4j
 public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
@@ -41,12 +45,17 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
 
     private final GeneratorService generatorService;
     private final UserService userService;
+
+    private final PostThumbService postThumbService;
+    private final PostFavourService postFavourService;
     private final RedisCache redisCache;
 
     @Autowired
-    public GeneratorServiceFacadeImpl(GeneratorService generatorService, @Qualifier("userServiceImpl") UserService userService, RedisCache redisCache) {
+    public GeneratorServiceFacadeImpl(GeneratorService generatorService, @Qualifier("userServiceImpl") UserService userService, PostThumbService postThumbService, PostFavourService postFavourService, RedisCache redisCache) {
         this.generatorService = generatorService;
         this.userService = userService;
+        this.postThumbService = postThumbService;
+        this.postFavourService = postFavourService;
         this.redisCache = redisCache;
     }
 
@@ -65,13 +74,10 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
     }
 
     @Override
-    public GeneratorVO getGeneratorVO(Generator generator, Long userId) {
+    public GeneratorVO getGeneratorVO(Generator generator) {
         GeneratorVO generatorVO = GENERATOR_CONVERTER.toGeneratorVO(generator);
         // 1. 关联查询用户信息
-        User user = null;
-        if (userId != null && userId > 0) {
-            user = userService.getById(generatorVO.getUserId());
-        }
+        User user =  userService.getById(generatorVO.getUserId());
         UserVO userVO = userService.getUserVO(user);
         generatorVO.setUser(userVO);
         return generatorVO;
@@ -193,5 +199,21 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
             throw new BusinessException(HttpCode.NO_AUTH_ERROR);
         }
         return generatorService.updateById(generator);
+    }
+
+
+    @Override
+    public GeneratorVO getGeneratorWithStarAndFavour(Long id, Long userId) {
+        Generator generator = generatorService.getById(id);
+        BusinessException.throwIf(ObjectUtil.isEmpty(generator),"生成器不存在");
+        GeneratorVO generatorVO = getGeneratorVO(generator);
+        // 得到这个生成器的点赞和收藏数量 以及当前用户是否点赞
+        // 先使用实时查数据库，后面换成查redis
+        boolean isThumb = postThumbService.getBaseMapper().exists(new QueryWrapper<PostThumb>().eq("user_id", userId)
+                .eq("post_id", id));
+        boolean isFavour = postFavourService.getBaseMapper().exists(new QueryWrapper<PostFavour>().eq("user_id", userId).eq("post_id", id));
+        generatorVO.setStared(isThumb?1:0);
+        generatorVO.setFavoured(isFavour?1:0);
+        return generatorVO;
     }
 }

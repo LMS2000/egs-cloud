@@ -1,5 +1,6 @@
 package com.lms.sqlfather.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -7,6 +8,7 @@ import com.lms.lmscommon.model.dto.postfavour.PostFavourAddRequest;
 import com.lms.lmscommon.model.dto.postfavour.PostFavourQueryRequest;
 import com.lms.lmscommon.common.BusinessException;
 import com.lms.lmscommon.model.vo.generator.GeneratorVO;
+import com.lms.result.EnableResponseAdvice;
 import com.lms.sqlfather.service.PostFavourService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @AllArgsConstructor
 @Api(value = "帖子收藏")
+@EnableResponseAdvice
 public class PostFavourController {
 
 
@@ -48,6 +51,7 @@ public class PostFavourController {
     @PostMapping()
     @ApiOperationSupport(order =1)
     @ApiOperation(value = "收藏/取消 收藏")
+    @SaCheckLogin
     public Integer doPostFavour(@Validated  @RequestBody PostFavourAddRequest postFavourAddRequest) {
         // 登录才能操作
         Long loginId = Long.parseLong((String) StpUtil.getLoginId());
@@ -72,15 +76,12 @@ public class PostFavourController {
      * 获取用户收藏的帖子列表
      *
      * @param postFavourQueryRequest
-     * @param request
      */
     @PostMapping("/list/page")
     @ApiOperationSupport(order =3)
     @ApiOperation(value = "获取用户收藏的帖子列表")
-    public Page<GeneratorVO> listFavourPostByPage(@RequestBody PostFavourQueryRequest postFavourQueryRequest,
-            HttpServletRequest request) {
+    public Page<GeneratorVO> listFavourPostByPage(@RequestBody PostFavourQueryRequest postFavourQueryRequest) {
         BusinessException.throwIf(postFavourQueryRequest == null);
-        Long current = postFavourQueryRequest.getCurrent();
         Long size = postFavourQueryRequest.getPageSize();
         Long userId = postFavourQueryRequest.getUserId();
         // 限制爬虫
