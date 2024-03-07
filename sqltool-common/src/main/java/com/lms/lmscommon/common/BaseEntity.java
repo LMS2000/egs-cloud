@@ -24,7 +24,7 @@ public class BaseEntity implements Serializable {
             value = "id",
             type = IdType.AUTO
     )
-    private Long id;
+    protected Long id;
 
     @DateTimeFormat(
             pattern = "yyyy-MM-dd HH:mm:ss"
@@ -34,7 +34,7 @@ public class BaseEntity implements Serializable {
     )
     @ApiModelProperty("创建时间")
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    protected LocalDateTime createTime;
 
     @DateTimeFormat(
             pattern = "yyyy-MM-dd HH:mm:ss"
@@ -44,7 +44,7 @@ public class BaseEntity implements Serializable {
     )
     @ApiModelProperty("更新时间")
     @TableField(fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
+    protected LocalDateTime updateTime;
 
 
 

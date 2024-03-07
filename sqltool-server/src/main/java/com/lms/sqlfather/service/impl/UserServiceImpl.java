@@ -1,16 +1,20 @@
 package com.lms.sqlfather.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.injector.methods.Update;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.gson.JsonObject;
 import com.lms.contants.HttpCode;
 import com.lms.lmscommon.constant.CommonConstant;
 import com.lms.lmscommon.constant.EmailConstant;
@@ -74,6 +78,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
     @Override
+    public Boolean flushKeys(Long id) {
+        User user = getById(id);
+        String username = user.getUsername();
+        String accessKey = DigestUtil.md5Hex(SALT + username + RandomUtil.randomNumbers(5));
+        String secretKey = DigestUtil.md5Hex(SALT + username + RandomUtil.randomNumbers(8));
+        user = new User();
+        user.setId(id);
+        user.setAccessKey(accessKey);
+        user.setSecretKey(secretKey);
+        return updateById(user);
+    }
+
+    @Override
     public Page<UserVO> pageUserVO(UserQueryRequest userQueryRequest) {
 
         long current = 1;
@@ -87,9 +104,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String username = userQueryRequest.getUsername();
         String userRole = userQueryRequest.getUserRole();
         Integer gender = userQueryRequest.getGender();
-        QueryWrapper<User> wrapper =new QueryWrapper<User>().like(StringUtils.isNotEmpty(username),"username",username)
-                .eq(StrUtil.isNotEmpty(userRole)&&ObjectUtil.isNotEmpty(RoleEnum.getEnumByValue(userRole)),"user_role",userRole)
-                .eq(ObjectUtil.isNotEmpty(gender),"gender",gender);
+        QueryWrapper<User> wrapper = new QueryWrapper<User>().like(StringUtils.isNotEmpty(username), "username", username)
+                .eq(StrUtil.isNotEmpty(userRole) && ObjectUtil.isNotEmpty(RoleEnum.getEnumByValue(userRole)), "user_role", userRole)
+                .eq(ObjectUtil.isNotEmpty(gender), "gender", gender);
 
         Page<User> userPage = this.page(new Page<>(current, size), wrapper);
         Page<UserVO> userVOPage = new PageDTO<>(userPage.getCurrent(), userPage.getSize(), userPage.getTotal());
@@ -104,9 +121,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String username = userQueryRequest.getUsername();
         String userRole = userQueryRequest.getUserRole();
         Integer gender = userQueryRequest.getGender();
-        List<User> userList = this.list(new QueryWrapper<User>().like(StringUtils.isNotEmpty(username),"user_name",username)
-                .eq(StrUtil.isNotEmpty(userRole)&&ObjectUtil.isNotEmpty(RoleEnum.getEnumByValue(userRole)),"user_role",userRole)
-                .eq(ObjectUtil.isNotEmpty(gender),"gender",gender));
+        List<User> userList = this.list(new QueryWrapper<User>().like(StringUtils.isNotEmpty(username), "user_name", username)
+                .eq(StrUtil.isNotEmpty(userRole) && ObjectUtil.isNotEmpty(RoleEnum.getEnumByValue(userRole)), "user_role", userRole)
+                .eq(ObjectUtil.isNotEmpty(gender), "gender", gender));
         return USER_CONVERTER.toListUserVo(userList);
     }
 
@@ -115,6 +132,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = new User();
         //防止恶意修改
         user.setUserRole("");
+        List<String> tags = userUpdateRequest.getTags();
+        if(CollUtil.isNotEmpty(tags)){
+            user.setTags(JSONObject.toJSONString(tags));
+        }
         BeanUtils.copyProperties(userUpdateRequest, user);
         return this.updateById(user);
 

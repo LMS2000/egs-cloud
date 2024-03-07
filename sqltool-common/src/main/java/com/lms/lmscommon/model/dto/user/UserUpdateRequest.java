@@ -8,6 +8,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -21,8 +22,6 @@ public class UserUpdateRequest implements Serializable {
     /**
      * id
      */
-    @NotNull(message = "id不能为空")
-    @Positive(message = "id不合法")
     @ApiModelProperty(value = "id")
     private Long id;
 
@@ -31,6 +30,11 @@ public class UserUpdateRequest implements Serializable {
      */
     @ApiModelProperty(value = "用户昵称")
     private String nickname;
+    /**
+     * 标签
+     */
+    @ApiModelProperty(value = "标签")
+    private List<String> tags;
 
 
     /**

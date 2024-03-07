@@ -17,5 +17,5 @@ public class DeleteFlagEntity extends BaseEntity{
      */
     @TableField("is_delete")
     @TableLogic
-    private Integer deleteFlag;
+    protected Integer deleteFlag;
 }

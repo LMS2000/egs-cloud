@@ -24,6 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,6 +55,10 @@ public class UserController {
 
 
     private final RedisCache redisCache;
+
+
+
+
 
 
     /**
@@ -262,6 +267,7 @@ public class UserController {
     @PostMapping("/update/current")
     @ApiOperationSupport(order =12)
     @ApiOperation(value = "当前用户修改")
+    @SaCheckLogin
     public Boolean updateCurrentUser(@Validated @RequestBody  UserUpdateRequest userUpdateRequest) {
         Long loginId = Long.parseLong((String) StpUtil.getLoginId());
         userUpdateRequest.setId(loginId);
@@ -285,7 +291,14 @@ public class UserController {
         return userService.updateById(user);
     }
 
-
+    @PostMapping("/flush/keys")
+    @ApiOperation("刷新用户的公钥和私钥")
+    @SaCheckLogin
+    @ApiOperationSupport(order =14)
+    public Boolean  changeAkAndSk(){
+        Long loginId = Long.parseLong((String) StpUtil.getLoginId());
+        return userService.flushKeys(loginId);
+    }
     /**
      * 获取用户列表
      *
@@ -294,7 +307,7 @@ public class UserController {
      */
     @GetMapping("/list")
     @SaCheckRole(UserConstant.ADMIN_ROLE)
-    @ApiOperationSupport(order =14)
+    @ApiOperationSupport(order =15)
     @ApiOperation(value = "获取用户列表")
     public List<UserVO> listUser(UserQueryRequest userQueryRequest) {
         return userService.listUserVO(userQueryRequest);
@@ -308,7 +321,7 @@ public class UserController {
      */
     @GetMapping("/get")
     @SaCheckRole(UserConstant.ADMIN_ROLE)
-    @ApiOperationSupport(order =15)
+    @ApiOperationSupport(order =16)
     @ApiOperation(value = "根据 id 获取用户")
     public UserVO getUserById(@Positive(message = "id不合法") Long id) {
         User user = userService.getById(id);
@@ -327,7 +340,7 @@ public class UserController {
 
     @GetMapping("/list/page")
     @SaCheckRole(UserConstant.ADMIN_ROLE)
-    @ApiOperationSupport(order =16)
+    @ApiOperationSupport(order =17)
     @ApiOperation(value = "获取用户分页列表")
     public Page<UserVO> page(UserQueryRequest userQueryRequest) {
        return userService.pageUserVO(userQueryRequest);

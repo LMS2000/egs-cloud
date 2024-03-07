@@ -20,7 +20,14 @@ public interface UserService extends IService<User> {
 
 
 
+    Boolean flushKeys(Long id);
 
+
+    /**
+     * 获取用户分页
+     * @param userQueryRequest
+     * @return
+     */
     Page<UserVO> pageUserVO(UserQueryRequest userQueryRequest);
     /**
      * 获取用户列表
