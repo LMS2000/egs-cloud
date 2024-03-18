@@ -110,3 +110,4 @@ fabric.properties
 /sqltool-sdk/target/
 /sqltool-server/target/
 /.temp/
+/sql-tool-frontend/node_modules/
