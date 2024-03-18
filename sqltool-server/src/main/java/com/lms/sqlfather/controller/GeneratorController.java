@@ -7,6 +7,7 @@ import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.*;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
@@ -28,6 +29,8 @@ import com.lms.maker.generator.main.GenerateTemplate;
 import com.lms.maker.generator.main.ZipGenerator;
 import com.lms.maker.meta.Meta;
 import com.lms.maker.meta.MetaValidator;
+import com.lms.maker.template.TemplateMaker;
+import com.lms.maker.template.model.TemplateMakerConfig;
 import com.lms.result.EnableResponseAdvice;
 import com.lms.sqlfather.annotation.IgnoreLog;
 import com.lms.sqlfather.client.OssClient;
@@ -71,8 +74,6 @@ public class GeneratorController {
     private final GeneratorService generatorService;
 
     private final GeneratorServiceFacade generatorServiceFacade;
-
-
 
 
     private final OssClient client;
@@ -399,6 +400,98 @@ public class GeneratorController {
         });
     }
 
+//
+//    @PostMapping("/make/full")
+//    @SaCheckLogin
+//    @IgnoreLog
+//    public void makeGeneratorFull(@RequestBody GeneratorMakeRequest generatorMakeRequest,HttpServletResponse response) throws IOException {
+//        if (!MAKE_LIMITER.tryAcquire()) {
+//            throw new BusinessException(HttpCode.OPERATION_ERROR);
+//        }
+//        // 1) 输入参数
+//        Meta meta = generatorMakeRequest.getMeta();
+//        String zipFilePath = generatorMakeRequest.getZipFilePath();
+//        // 需要用户登录
+//        Long loginId = Long.parseLong((String) StpUtil.getLoginId());
+//        log.info("userId = {} 在线制作生成器", loginId);
+//
+//        // 2) 创建独立的工作空间，下载压缩包到本地
+//        String projectPath = System.getProperty("user.dir");
+//        String id = IdUtil.getSnowflakeNextId() + RandomUtil.randomString(6);
+//        String tempDirPath = String.format("%s/.temp/make/%s", projectPath, id);
+//        String localZipFilePath = tempDirPath + "/project.zip";
+//
+//        if (!FileUtil.exist(localZipFilePath)) {
+//            FileUtil.touch(localZipFilePath);
+//        }
+//
+//        // 下载文件
+//        try {
+//            StopWatch stopWatch = new StopWatch();
+//            stopWatch.start();
+////            String objectURL = client.getObjectURL(FileConstant.BUCKET_NAME, zipFilePath);
+//            GetObjectRequest getObjectRequest = new GetObjectRequest(FileConstant.BUCKET_NAME, zipFilePath);
+//            S3Object s3Object = client.getS3Client().getObject(getObjectRequest);
+//            S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
+//            // 使用 IOUtils.copy() 方法将输入流内容复制到输出流（本地文件）
+//            try (FileOutputStream fileOutputStream = new FileOutputStream(localZipFilePath)) {
+//                IOUtils.copy(objectInputStream, fileOutputStream);
+//            }
+//
+////            FileUtil.writeBytes(objectURL.getBytes(),localZipFilePath);
+//            stopWatch.stop();
+//            System.out.println("下载文件：" + stopWatch.getTotalTimeMillis());
+//        } catch (Exception e) {
+//            throw new BusinessException(HttpCode.SYSTEM_ERROR, "压缩包下载失败");
+//        }
+//
+//        // 3）解压，得到项目模板文件
+//        File unzipDistDir = ZipUtil.unzip(localZipFilePath);
+//
+//        // 4）构造 meta 对象和生成器的输出路径
+//        String sourceRootPath = unzipDistDir.getAbsolutePath();
+//        TemplateMakerConfig templateMakerConfig=new TemplateMakerConfig();
+//        templateMakerConfig.setMeta(meta);
+//        templateMakerConfig.setFileConfig(generatorMakeRequest.getFileConfig());
+//        templateMakerConfig.setModelConfig(generatorMakeRequest.getModelConfig());
+//        templateMakerConfig.setOutputConfig(generatorMakeRequest.getOutputConfig());
+//        templateMakerConfig.setOriginProjectPath(sourceRootPath);
+//        templateMakerConfig.setId(id);
+//        Meta newMeta = TemplateMaker.makeTemplate(templateMakerConfig);
+//        MetaValidator.doValidAndFill(newMeta);
+//        System.out.println(JSONUtil.toJsonStr(newMeta));
+//        String outputPath = tempDirPath + "/generated/" + newMeta.getName();
+//        // 5）调用 maker 方法制作生成器
+//        GenerateTemplate generateTemplate = new ZipGenerator();
+//        try {
+//            StopWatch stopWatch = new StopWatch();
+//            stopWatch.start();
+//            generateTemplate.doGenerate(newMeta, outputPath);
+//            stopWatch.stop();
+//            System.out.println("制作耗时：" + stopWatch.getTotalTimeMillis());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new BusinessException(HttpCode.SYSTEM_ERROR, "制作失败");
+//        }
+//
+//        // 6）下载制作好的生成器压缩包
+//        String suffix = "-dist.zip";
+//        String zipFileName = meta.getName() + suffix;
+//        // 生成器压缩包的绝对路径
+//        String distZipFilePath = outputPath + suffix;
+//
+//        // 设置响应头
+//        response.setContentType("application/octet-stream;charSet=UTF-8");
+//        response.setHeader("Content-Disposition", "attachment; filename=" + zipFileName);
+//        Files.copy(Paths.get(distZipFilePath), response.getOutputStream());
+//        // 7）清理工作空间的文件
+//        CompletableFuture.runAsync(() -> {
+//            FileUtil.del(tempDirPath);
+//            FileUtil.del(newMeta.getFileConfig().getSourceRootPath());
+//        });
+//
+//    }
+
     /**
      * 制作代码生成器
      *
@@ -412,6 +505,7 @@ public class GeneratorController {
         if (!MAKE_LIMITER.tryAcquire()) {
             throw new BusinessException(HttpCode.OPERATION_ERROR);
         }
+
 
         // 1) 输入参数
         Meta meta = generatorMakeRequest.getMeta();
@@ -457,6 +551,10 @@ public class GeneratorController {
         // 4）构造 meta 对象和生成器的输出路径
         String sourceRootPath = unzipDistDir.getAbsolutePath();
         meta.getFileConfig().setSourceRootPath(sourceRootPath);
+        // 扫描其他不属于原有fileConfig的文件路径
+
+        // 都添加为静态的路径追加到meta 类中
+
         // 校验和处理默认值
         MetaValidator.doValidAndFill(meta);
         String outputPath = tempDirPath + "/generated/" + meta.getName();

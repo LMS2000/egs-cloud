@@ -89,6 +89,8 @@ public class SqlController {
         String serverSign = SignUtils.genSign(newBody, secretKey);
         BusinessException.throwIf(sign == null || !sign.equals(serverSign),HttpCode.NO_AUTH_ERROR);
         TableSchema schema = TableSchemaBuilder.buildFromSql(sqlRequest.getSql());
+        // todo 根据sql的类型设置模拟策略
+
         return GeneratorFacade.generateAll(schema);
     }
     /**

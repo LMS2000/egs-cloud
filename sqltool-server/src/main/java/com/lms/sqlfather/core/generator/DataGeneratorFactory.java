@@ -18,7 +18,7 @@ public class DataGeneratorFactory {
         put(MockTypeEnum.NONE,new DefaultDataGenerator());
         put(MockTypeEnum.FIXED,new FixedDataGenerator());
         // 因为dictService 注入不了所以 静态代码块初始化不了
-//        put(MockTypeEnum.DICT,new DictGenerator());
+        put(MockTypeEnum.DICT,new DictGenerator());
         put(MockTypeEnum.INCREASE,new IncreaseDataGenerator());
         put(MockTypeEnum.RANDOM,new RandomDataGenerator());
         put(MockTypeEnum.RULE,new RuleDataGenerator());

@@ -1,5 +1,6 @@
 package com.lms.sqlfather.core.generator;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.lms.contants.HttpCode;
@@ -21,7 +22,7 @@ public class DictGenerator implements DataGenerator {
     private DictService dictService;
     private static final Gson GSON =new Gson();
     public DictGenerator(){
-        this.dictService = SpringContextUtils.getBean(DictService.class);
+        this.dictService = SpringUtil.getBean(DictService.class);
     }
 
 
