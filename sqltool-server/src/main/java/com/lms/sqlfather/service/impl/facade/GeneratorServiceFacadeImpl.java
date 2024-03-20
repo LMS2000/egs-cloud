@@ -1,7 +1,9 @@
 package com.lms.sqlfather.service.impl.facade;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -20,6 +22,7 @@ import com.lms.lmscommon.model.vo.user.UserVO;
 import com.lms.maker.meta.Meta;
 import com.lms.redis.RedisCache;
 import com.lms.lmscommon.common.BusinessException;
+import com.lms.sqlfather.config.CacheManager;
 import com.lms.sqlfather.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,15 +51,15 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
 
     private final PostThumbService postThumbService;
     private final PostFavourService postFavourService;
-    private final RedisCache redisCache;
+    private final CacheManager cacheManager;
 
     @Autowired
-    public GeneratorServiceFacadeImpl(GeneratorService generatorService, @Qualifier("userServiceImpl") UserService userService, PostThumbService postThumbService, PostFavourService postFavourService, RedisCache redisCache) {
+    public GeneratorServiceFacadeImpl(GeneratorService generatorService, @Qualifier("userServiceImpl") UserService userService, PostThumbService postThumbService, PostFavourService postFavourService, CacheManager cacheManager) {
         this.generatorService = generatorService;
         this.userService = userService;
         this.postThumbService = postThumbService;
         this.postFavourService = postFavourService;
-        this.redisCache = redisCache;
+        this.cacheManager = cacheManager;
     }
 
     @Override
@@ -134,11 +137,11 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
         long current = generatorQueryRequest.getCurrent();
         long size = generatorQueryRequest.getPageSize();
         // 优先从缓存读取
-//        String cacheKey = getPageCacheKey(generatorQueryRequest);
-//        Object cacheValue = redisCache.getCacheObject(cacheKey);
-//        if (cacheValue != null) {
-//            return (Page<GeneratorVO>) cacheValue;
-//        }
+        String cacheKey = getPageCacheKey(generatorQueryRequest);
+        Object cacheValue = cacheManager.get(cacheKey);
+        if (cacheValue != null) {
+            return (Page<GeneratorVO>) cacheValue;
+        }
 
         // 限制爬虫
         BusinessException.throwIf(size>20,HttpCode.PARAMS_ERROR);
@@ -157,8 +160,21 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
         Page<GeneratorVO> generatorVOPage = this.getGeneratorVOPage(generatorPage);
 
         // 写入缓存
-//        redisCache.setCacheObject(cacheKey, generatorVOPage);
+        cacheManager.put(cacheKey, generatorVOPage);
         return generatorVOPage;
+    }
+    /**
+     * 获取分页缓存 key
+     *
+     * @param generatorQueryRequest
+     * @return
+     */
+    public static String getPageCacheKey(GeneratorQueryRequest generatorQueryRequest) {
+        String jsonStr = JSONUtil.toJsonStr(generatorQueryRequest);
+        // 请求参数编码
+        String base64 = Base64Encoder.encode(jsonStr);
+        String key = "generator:page:" + base64;
+        return key;
     }
 
     @Override
@@ -198,9 +214,25 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
         if (!oldGenerator.getUserId().equals(loginUser.getId()) && !UserConstant.ADMIN_ROLE.equals(loginUser.getUserRole())) {
             throw new BusinessException(HttpCode.NO_AUTH_ERROR);
         }
-        return generatorService.updateById(generator);
+        boolean result = generatorService.updateById(generator);
+        // 清理缓存
+        if (result) {
+            String cacheFileDir = getCacheFileDir(id);
+            FileUtil.del(cacheFileDir);
+        }
+        return result;
     }
-
+    /**
+     * 获取缓存文件所在的目录
+     *
+     * @param id 生成器 id
+     * @return
+     */
+    private String getCacheFileDir(long id) {
+        String projectPath = System.getProperty("user.dir");
+        String tempDirPath = String.format("%s/.temp/cache/%s", projectPath, id);
+        return tempDirPath;
+    }
 
     @Override
     public GeneratorVO getGeneratorWithStarAndFavour(Long id, Long userId) {

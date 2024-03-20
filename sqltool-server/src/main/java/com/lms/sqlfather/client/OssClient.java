@@ -8,6 +8,7 @@ import com.lms.sqlfather.config.ContentNegotiateManager;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Oss 基础操作
@@ -64,7 +65,7 @@ public interface OssClient{
     }
 
     void deleteObject(String bucketName, String objectName);
-
+    void deleteObjects(String bucketName, List<String> objectNames);
     AmazonS3 getS3Client();
 }
 

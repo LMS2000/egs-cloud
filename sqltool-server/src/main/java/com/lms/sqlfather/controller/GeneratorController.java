@@ -7,7 +7,6 @@ import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.*;
 import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
@@ -29,8 +28,6 @@ import com.lms.maker.generator.main.GenerateTemplate;
 import com.lms.maker.generator.main.ZipGenerator;
 import com.lms.maker.meta.Meta;
 import com.lms.maker.meta.MetaValidator;
-import com.lms.maker.template.TemplateMaker;
-import com.lms.maker.template.model.TemplateMakerConfig;
 import com.lms.result.EnableResponseAdvice;
 import com.lms.sqlfather.annotation.IgnoreLog;
 import com.lms.sqlfather.client.OssClient;
@@ -48,6 +45,7 @@ import javax.validation.constraints.Positive;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
@@ -259,12 +257,12 @@ public class GeneratorController {
         response.setHeader("Content-Disposition", "attachment; filename=" + filepath);
 
 //        // 从缓存中尝试获取
-//        String zipFilePath = getCacheFilePath(id, filepath);
-//        if (FileUtil.exist(zipFilePath)) {
-//            // 写入响应
-//            Files.copy(Paths.get(zipFilePath), response.getOutputStream());
-//            return;
-//        }
+        String zipFilePath = getCacheFilePath(id, filepath);
+        if (FileUtil.exist(zipFilePath)) {
+            // 写入响应
+            Files.copy(Paths.get(zipFilePath), response.getOutputStream());
+            return;
+        }
 
         try {
             GetObjectRequest getObjectRequest=new GetObjectRequest(FileConstant.BUCKET_NAME, filepath);
@@ -312,21 +310,37 @@ public class GeneratorController {
         String tempDirPath = String.format("%s/.temp/use/%s", projectPath, id);
         String zipFilePath = tempDirPath + "/dist.zip";
 
-        if (!FileUtil.exist(zipFilePath)) {
-            FileUtil.touch(zipFilePath);
-        }
-        try {
-            GetObjectRequest getObjectRequest=new GetObjectRequest(FileConstant.BUCKET_NAME, distPath);
-            S3Object s3Object = client.getS3Client().getObject(getObjectRequest);
-            S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
-            // 使用 IOUtils.copy() 方法将输入流内容复制到输出流（本地文件）
-            try (FileOutputStream fileOutputStream = new FileOutputStream(zipFilePath)) {
-                IOUtils.copy(objectInputStream, fileOutputStream);
-            }
-        } catch (Exception e) {
-            throw new BusinessException(HttpCode.SYSTEM_ERROR, "生成器下载失败");
-        }
+        // 使用文件缓存
+        String cacheFilePath = getCacheFilePath(id, distPath);
+        Path cacheFilePathObj = Paths.get(cacheFilePath);
+        Path zipFilePathObj = Paths.get(zipFilePath);
 
+        if (!FileUtil.exist(zipFilePath)) {
+            // 有缓存，复制文件
+            if (FileUtil.exist(cacheFilePath)) {
+                Files.copy(cacheFilePathObj, zipFilePathObj);
+            } else {
+                // 没有缓存，从对象存储下载文件
+                FileUtil.touch(zipFilePath);
+                try {
+                    GetObjectRequest getObjectRequest=new GetObjectRequest(FileConstant.BUCKET_NAME, distPath);
+                    S3Object s3Object = client.getS3Client().getObject(getObjectRequest);
+                    S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
+                    // 使用 IOUtils.copy() 方法将输入流内容复制到输出流（本地文件）
+                    try (FileOutputStream fileOutputStream = new FileOutputStream(zipFilePath)) {
+                        IOUtils.copy(objectInputStream, fileOutputStream);
+                    }
+                } catch (Exception e) {
+                    throw new BusinessException(HttpCode.SYSTEM_ERROR, "生成器下载失败");
+                }
+                // 写文件缓存
+                File parentFile = cacheFilePathObj.toFile().getParentFile();
+                if (!FileUtil.exist(parentFile)) {
+                    FileUtil.mkdir(parentFile);
+                }
+                Files.copy(zipFilePathObj, cacheFilePathObj);
+            }
+        }
         // 解压压缩包，得到脚本文件
 
         File unzipDistDir = ZipUtil.unzip(zipFilePath);
@@ -597,7 +611,7 @@ public class GeneratorController {
     @PostMapping("/cache")
     @SaCheckLogin
     @SaCheckRole(UserConstant.ADMIN_ROLE)
-    public void cacheGenerator(@RequestBody GeneratorCacheRequest generatorCacheRequest, HttpServletResponse response) throws IOException {
+    public void cacheGenerator(@RequestBody @Valid GeneratorCacheRequest generatorCacheRequest, HttpServletResponse response) throws IOException {
         if (generatorCacheRequest == null || generatorCacheRequest.getId() <= 0) {
             throw new BusinessException(HttpCode.PARAMS_ERROR);
         }

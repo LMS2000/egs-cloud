@@ -102,7 +102,6 @@ public class DictController {
     @ApiOperation(value = "根据id获取dict")
     public DictVO getDictById(@Positive(message = "id不合法") Long id) {
         return  DICT_CONVERTER.toDictVO(dictService.getById(id));
-
     }
 
     /**

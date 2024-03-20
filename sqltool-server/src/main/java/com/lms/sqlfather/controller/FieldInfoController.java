@@ -90,7 +90,6 @@ public class FieldInfoController {
     @ApiOperationSupport(order = 3)
     @ApiOperation(value = "修改")
     public Boolean updateFieldInfo(@RequestBody  FieldInfoUpdateRequest fieldInfoUpdateRequest) {
-
         BusinessException.throwIf(fieldInfoUpdateRequest == null || fieldInfoUpdateRequest.getId() <= 0);
         FieldInfo fieldInfo = new FieldInfo();
         BeanUtils.copyProperties(fieldInfoUpdateRequest, fieldInfo);
@@ -99,7 +98,6 @@ public class FieldInfoController {
         long id = fieldInfoUpdateRequest.getId();
         // 判断是否存在
         FieldInfo oldFieldInfo = fieldInfoService.getById(id);
-
         BusinessException.throwIf(oldFieldInfo == null);
         return fieldInfoService.updateById(fieldInfo);
     }
@@ -186,7 +184,6 @@ public class FieldInfoController {
     @ApiOperationSupport(order = 7)
     @ApiOperation(value = "分页获取当前用户创建的field列表）")
     public Page<FieldInfoVO> listMyAddFieldInfoByPage(FieldInfoQueryRequest fieldInfoQueryRequest) {
-
         BusinessException.throwIf(fieldInfoQueryRequest == null);
         Long loginId = Long.parseLong((String) StpUtil.getLoginId());
         return fieldInfoService.pageMyAddFieldInfo(fieldInfoQueryRequest, loginId);

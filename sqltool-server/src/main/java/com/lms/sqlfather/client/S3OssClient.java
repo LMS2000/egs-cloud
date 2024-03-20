@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 /**
  * s3 是一个协议
@@ -64,7 +65,12 @@ public class S3OssClient implements OssClient {
     public void deleteObject(String bucketName, String objectName) {
         amazonS3.deleteObject(bucketName,objectName);
     }
-
+    @Override
+    public void deleteObjects(String bucketName, List<String> objectNames) {
+        for (String objectName : objectNames) {
+            amazonS3.deleteObject(bucketName,objectName);
+        }
+    }
     @Override
     public AmazonS3 getS3Client() {
         return amazonS3;
