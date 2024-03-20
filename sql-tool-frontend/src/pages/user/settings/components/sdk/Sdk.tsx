@@ -83,9 +83,14 @@ const SdkModel: React.FC = () => {
 								<a href="https://github.com/LMS2000/sql-generator">
 									<Button type="primary">跳转下载</Button>
 								</a>
-								https://service-edu-2000.oss-cn-hangzhou.aliyuncs.com/sql-generator/sql-generator-v1.0.jar
 							</Space.Compact>
 							<Space.Compact style={{ width: '100%', marginBottom: '10px' }}>
+								<Input defaultValue="https://github.com/LMS2000/lmszi-generator-maker" disabled />
+								<a href="https://github.com/LMS2000/lmszi-generator-maker">
+									<Button type="primary">跳转下载</Button>
+								</a>
+							</Space.Compact>
+							<Space.Compact style={{ marginBottom: '10px',marginRight:'10px' }}>
 								<a href="	https://service-edu-2000.oss-cn-hangzhou.aliyuncs.com/sql-generator/sql-generator-v1.0.jar">
 									<Button type="primary">下载</Button>
 								</a>

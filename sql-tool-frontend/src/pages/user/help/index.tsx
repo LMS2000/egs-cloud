@@ -3,7 +3,7 @@ import MarkdownEditor from "@uiw/react-markdown-editor";
 import { Radio } from "antd"
 import ReactMarkdown from 'react-markdown';
 // 各种markdown引入，
-import readmeMD from "./xxx.md";
+import readmeMD from "./help.md";
 import remarkGfm from 'remark-gfm';
  import 'github-markdown-css';
 import "./index.less"

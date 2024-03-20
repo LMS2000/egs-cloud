@@ -219,3 +219,42 @@ sqltool:
 **下载**
 
 系统直接将代码生成器给用户下载来使用
+
+
+
+# 生成器制作工具的使用
+
+在线的代码生成器制作功能可能不是很好用，为了更好的制作生成器系统提供了一个生成器的代码包。我们可以下载使用，制作完将制作完成的`meta.json`中关于模型配置还有文件配置的`json`文件可以在线导入。具体使用在[工具地址](https://github.com/LMS2000/lmszi-generator-maker)内有使用说明
+
+![image-20240320172518665](https://service-edu-2000.oss-cn-hangzhou.aliyuncs.com/pic_go_areapic_go_areaimage-20240320172518665.png)
+
+
+
+
+
+我们可以使用在线制作工具的导入功能将我们本地制作的生成器的模型配置的`JSON` 导入
+
+![image-20240320171639768](https://service-edu-2000.oss-cn-hangzhou.aliyuncs.com/pic_go_areaimage-20240320171639768.png)
+
+
+
+
+
+
+
+![image-20240320171703708](https://service-edu-2000.oss-cn-hangzhou.aliyuncs.com/pic_go_areaimage-20240320171703708.png)
+
+
+
+同样也可以将文件配置的`JSON` 导入
+
+![image-20240320171724192](https://service-edu-2000.oss-cn-hangzhou.aliyuncs.com/pic_go_areaimage-20240320171724192.png)
+
+
+
+![image-20240320171745504](https://service-edu-2000.oss-cn-hangzhou.aliyuncs.com/pic_go_areaimage-20240320171745504.png)
+
+
+
+
+

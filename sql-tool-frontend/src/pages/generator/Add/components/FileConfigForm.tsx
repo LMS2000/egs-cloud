@@ -102,7 +102,7 @@ export default (props: Props) => {
 
   return (
     <>
-      <Alert message="如果不需要使用在线制作功能，可不填写" type="warning" closable />
+    
       <div style={{ marginBottom: 16 }} />
       <Form.List name={['fileConfig', 'files']}>
         {(fields, { add, remove }) => (
