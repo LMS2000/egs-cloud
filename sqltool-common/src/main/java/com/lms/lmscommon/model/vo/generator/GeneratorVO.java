@@ -51,6 +51,11 @@ public class GeneratorVO extends BaseVO {
      */
     @ApiModelProperty("作者")
     private String author;
+    /**
+     * 状态（0-待审核, 1-通过, 2-拒绝）
+     */
+    @ApiModelProperty("审核状态")
+    private Integer reviewStatus;
 
     /**
      * 标签列表（json 数组）

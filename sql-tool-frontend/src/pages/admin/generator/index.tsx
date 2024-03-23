@@ -3,6 +3,7 @@ import UpdateModal from '@/pages/admin/generator/components/UpdateModal';
 import {
   deleteGeneratorUsingPost,
   listGeneratorByPageUsingPost,
+	updateGeneratorUsingPost
 } from '@/services/generatorService';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
@@ -10,7 +11,7 @@ import { ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Select, Space, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
-
+import { REVIEW_STATUS_ENUM } from '@/constants';
 /**
  * 代码生成器管理页面
  *
@@ -48,6 +49,30 @@ const GeneratorAdminPage: React.FC = () => {
     }
   };
 
+
+/**
+   * 更新审核状态
+   * @param tableInfo
+   * @param reviewStatus
+   */
+  const updateReviewStatus = async (
+    generator: API.Generator,
+    reviewStatus: number,
+  ) => {
+    const hide = message.loading('处理中');
+    try {
+      await updateGeneratorUsingPost({
+        id: generator.id,
+        reviewStatus,
+      });
+      message.success('操作成功');
+      actionRef.current?.reload();
+    } catch (e: any) {
+      message.error('操作失败，' + e.message);
+    } finally {
+      hide();
+    }
+  };
   /**
    * 表格列配置
    */
@@ -115,16 +140,20 @@ const GeneratorAdminPage: React.FC = () => {
       title: '文件配置',
       dataIndex: 'fileConfig',
       valueType: 'jsonCode',
+			 hideInTable: true, // 隐藏该列
     },
     {
       title: '模型配置',
       dataIndex: 'modelConfig',
       valueType: 'jsonCode',
+			 hideInTable: true, // 隐藏该列
     },
     {
       title: '产物包路径',
       dataIndex: 'distPath',
       valueType: 'text',
+			 hideInTable: true, // 隐藏该列
+			
     },
     {
       title: '状态',
@@ -148,6 +177,11 @@ const GeneratorAdminPage: React.FC = () => {
       hideInSearch: true,
       hideInForm: true,
     },
+		{
+		  title: '审核状态',
+		  dataIndex: 'reviewStatus',
+		  valueEnum: REVIEW_STATUS_ENUM,
+		},
     {
       title: '更新时间',
       sorter: true,
@@ -170,6 +204,25 @@ const GeneratorAdminPage: React.FC = () => {
           >
             修改
           </Typography.Link>
+					{record.reviewStatus !== 1 && (
+					  <Typography.Link
+					    onClick={() => {
+					      updateReviewStatus(record, 1);
+					    }}
+					  >
+					    通过
+					  </Typography.Link>
+					)}
+					{record.reviewStatus !== 2 && (
+					  <Typography.Link
+					    type="danger"
+					    onClick={() => {
+					      updateReviewStatus(record, 2);
+					    }}
+					  >
+					    拒绝
+					  </Typography.Link>
+					)}
           <Typography.Link type="danger" onClick={() => handleDelete(record)}>
             删除
           </Typography.Link>

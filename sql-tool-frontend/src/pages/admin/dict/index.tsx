@@ -91,6 +91,7 @@ const AdminDictPage: React.FC<unknown> = () => {
       fieldProps: {
         placeholder: '多个单词间用【英文或中文逗号】分割',
       },
+			 hideInTable: true, // 隐藏该列
     },
     {
       title: '审核状态',

@@ -2,7 +2,7 @@ import { REVIEW_STATUS_ENUM } from '@/constants';
 import {
   deleteTableInfo,
   listTableInfoByPage,
-  updateTableInfo,
+  updateTableInfo,z
 } from '@/services/tableInfoService';
 import {
   ActionType,
@@ -90,6 +90,7 @@ const AdminTableInfoPage: React.FC<unknown> = () => {
       title: '内容',
       dataIndex: 'content',
       valueType: 'textarea',
+			 hideInTable: true, // 隐藏该列
     },
     {
       title: '审核状态',

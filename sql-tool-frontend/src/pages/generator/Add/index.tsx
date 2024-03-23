@@ -59,7 +59,7 @@ const GeneratorAddPage: React.FC = () => {
 	 * 导入模型配置
 	 */
 	const importModelConfig = (modelConfig: API.ModelConfig) => {
-		formRef.current?.setFieldValue('modelConfig', fileConfig);
+		formRef.current?.setFieldValue('modelConfig', modelConfig);
 		setModelConfig(modelConfig);
 		setInputModelConfigVisible(false);
 		message.success('导入成功');

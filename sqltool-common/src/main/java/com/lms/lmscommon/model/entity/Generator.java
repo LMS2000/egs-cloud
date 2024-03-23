@@ -47,6 +47,10 @@ public class Generator extends DeleteFlagEntity {
      * 标签列表（json 数组）
      */
     private String tags;
+    /**
+     * 状态（0-待审核, 1-通过, 2-拒绝）
+     */
+    private Integer reviewStatus;
 
     /**
      * 图片

@@ -96,13 +96,18 @@ public class GeneratorQueryRequest  extends PageRequest implements Serializable 
      * 文件配置（json字符串）
      */
     @ApiModelProperty(value = "文件配置")
-    private Meta.FileConfig fileConfig;
+    private String fileConfig;
 
     /**
      * 模型配置（json字符串）
      */
     @ApiModelProperty(value = "模型配置")
-    private Meta.ModelConfig modelConfig;
+    private String modelConfig;
+    /**
+     * 状态（0-待审核, 1-通过, 2-拒绝）
+     */
+    @ApiModelProperty("审核状态")
+    private Integer reviewStatus;
 
     /**
      * 代码生成器产物路径

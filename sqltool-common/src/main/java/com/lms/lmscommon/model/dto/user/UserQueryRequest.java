@@ -1,5 +1,6 @@
 package com.lms.lmscommon.model.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lms.lmscommon.common.PageRequest;
 import com.lms.lmscommon.validator.RangeCheck;
 import io.swagger.annotations.ApiModel;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -59,12 +61,12 @@ public class UserQueryRequest extends PageRequest implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    private Date createTime;
+    private String createTime;
 
     /**
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
+    private String updateTime;
 
 }

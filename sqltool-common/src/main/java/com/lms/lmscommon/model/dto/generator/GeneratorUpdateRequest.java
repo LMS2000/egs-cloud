@@ -65,6 +65,11 @@ public class GeneratorUpdateRequest implements Serializable {
      */
     @ApiModelProperty(value = "图片地址")
     private String picture;
+    /**
+     * 状态（0-待审核, 1-通过, 2-拒绝）
+     */
+    @ApiModelProperty("审核状态")
+    private Integer reviewStatus;
 
     /**
      * 文件配置（json字符串）

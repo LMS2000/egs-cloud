@@ -109,6 +109,7 @@ declare namespace API {
     tags?: string;
     updateTime?: string;
     userId?: string;
+		reviewStatus?:number;
     version?: string;
   };
 
@@ -180,6 +181,7 @@ declare namespace API {
     name?: string;
     picture?: string;
     status?: number;
+		reviewStatus?:number;
     tags?: string[];
     version?: string;
   };
