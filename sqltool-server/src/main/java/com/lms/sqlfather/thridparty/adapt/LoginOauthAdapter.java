@@ -5,12 +5,12 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.model.entity.User;
 import com.lms.lmscommon.model.vo.user.UserVO;
 
 import com.lms.sqlfather.config.GiteeProperties;
 import com.lms.sqlfather.config.WechatProperties;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.sqlfather.service.UserService;
 import com.lms.sqlfather.utils.HttpClientUtils;
 import lombok.AllArgsConstructor;

@@ -1,15 +1,12 @@
 package com.lms.lmscommon.model.vo.generator;
 
-import cn.hutool.json.JSONUtil;
-import com.lms.lmscommon.common.BaseVO;
-import com.lms.lmscommon.model.entity.Generator;
+import com.lms.common.BaseVO;
 import com.lms.lmscommon.model.vo.user.UserVO;
 import com.lms.maker.meta.Meta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.beans.BeanUtils;
 
 
 import java.util.List;

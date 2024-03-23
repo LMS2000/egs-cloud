@@ -2,9 +2,9 @@ package com.lms.sqlfather.service.impl.inner;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.model.entity.UserInterfaceInfo;
 import com.lms.lmscommon.service.InnerUserInterfaceInfoService;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.sqlfather.service.UserInterfaceInfoService;
 
 

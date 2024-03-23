@@ -13,7 +13,7 @@
     <module>sqltool-server</module>
     <module>sqltool-gateway</module>
     <module>sqltool-common</module>
-      <module>lms-generator-maker</module>
+    <module>lms-generator-maker</module>
   </modules>
 
   <parent>

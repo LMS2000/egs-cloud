@@ -35,7 +35,7 @@ export async function getRoutes() {
 '25': React.lazy(() => import(/* webpackChunkName: "p__admin__tableInfo__index" */'@/pages/admin/tableInfo/index.tsx')),
 '26': React.lazy(() => import(/* webpackChunkName: "p__admin__fieldInfo__index" */'@/pages/admin/fieldInfo/index.tsx')),
 '27': React.lazy(() => import(/* webpackChunkName: "p__admin__report__index" */'@/pages/admin/report/index.tsx')),
-'ant-design-pro-layout': React.lazy(() => import(/* webpackChunkName: "umi__plugin-layout__Layout" */'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/src/.umi/plugin-layout/Layout.tsx')),
+'ant-design-pro-layout': React.lazy(() => import(/* webpackChunkName: "umi__plugin-layout__Layout" */'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/src/.umi/plugin-layout/Layout.tsx')),
 },
   };
 }

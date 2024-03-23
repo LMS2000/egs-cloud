@@ -1,19 +1,12 @@
 package com.lms.lmscommon.model.vo.userInterfaceInfo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.lms.lmscommon.common.BaseVO;
+import com.lms.common.BaseVO;
 import com.lms.lmscommon.model.vo.interfaceInfo.InterfaceInfoVO;
 import com.lms.lmscommon.model.vo.user.UserVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 用户接口视图

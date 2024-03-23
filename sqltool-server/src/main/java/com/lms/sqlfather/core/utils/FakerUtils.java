@@ -23,7 +23,9 @@ public class FakerUtils {
     public static String getRandomValue(MockParamsRandomTypeEnum mockParamsRandomTypeEnum) {
         String defaultValue = RandomStringUtils.randomAlphanumeric(2, 6);
 
-        if (mockParamsRandomTypeEnum == null) return defaultValue;
+        if (mockParamsRandomTypeEnum == null) {
+            return defaultValue;
+        }
 
         switch (mockParamsRandomTypeEnum) {
 

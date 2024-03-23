@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.constant.SqlConstant;
 import com.lms.lmscommon.constant.StatusConstant;
 import com.lms.lmscommon.model.dto.generator.GeneratorAddRequest;
@@ -13,18 +14,15 @@ import com.lms.lmscommon.model.dto.generator.GeneratorQueryRequest;
 import com.lms.lmscommon.model.dto.generator.GeneratorUpdateRequest;
 import com.lms.lmscommon.model.entity.Generator;
 import com.lms.lmscommon.utils.SqlUtils;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.maker.meta.Meta;
 import com.lms.sqlfather.mapper.GeneratorMapper;
 import com.lms.sqlfather.service.GeneratorService;
-import com.lms.sqlfather.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**

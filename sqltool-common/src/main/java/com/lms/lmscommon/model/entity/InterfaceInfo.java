@@ -1,11 +1,8 @@
 package com.lms.lmscommon.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.lms.lmscommon.common.DeleteFlagEntity;
+import com.lms.common.DeleteFlagEntity;
 import lombok.*;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 接口信息

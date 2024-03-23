@@ -3,7 +3,7 @@
 // DO NOT CHANGE IT MANUALLY!
 // @ts-ignore
 import type { models as rawModels } from '@@/plugin-model/model';
-import isEqual from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/node_modules/_fast-deep-equal@3.1.3@fast-deep-equal/index.js';
+import isEqual from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/node_modules/_fast-deep-equal@3.1.3@fast-deep-equal/index.js';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 type Models = typeof rawModels;

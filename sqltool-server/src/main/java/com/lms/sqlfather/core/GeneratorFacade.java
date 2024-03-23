@@ -1,13 +1,13 @@
 package com.lms.sqlfather.core;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.constant.SqlConstant;
 import com.lms.sqlfather.core.builder.*;
 import com.lms.sqlfather.core.model.vo.GenerateVO;
 import com.lms.sqlfather.core.schema.SchemaException;
 import com.lms.sqlfather.core.schema.TableSchema;
 import com.lms.sqlfather.core.schema.TableSchema.Field;
-import com.lms.lmscommon.common.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

@@ -27,6 +27,8 @@ public interface SqlConstant {
      */
     String AI_BUILD_SUFFIX="仅输出建表SQL";
 
+    String DEFAULT_GENERATED_PACEKAGE="com.lms.generated";
+
 
 
 }

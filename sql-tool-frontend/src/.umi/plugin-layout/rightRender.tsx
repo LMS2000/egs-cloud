@@ -3,7 +3,7 @@
 // DO NOT CHANGE IT MANUALLY!
 import React from 'react';
 import { Avatar, version, Dropdown, Menu, Spin } from 'antd';
-import { LogoutOutlined } from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/node_modules/_@ant-design_icons@4.8.1@@ant-design/icons';
+import { LogoutOutlined } from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/node_modules/_@ant-design_icons@4.8.3@@ant-design/icons';
 
 export function getRightRenderContent (opts: {
    runtimeConfig: any,

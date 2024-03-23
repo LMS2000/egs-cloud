@@ -1,14 +1,11 @@
 package com.lms.lmscommon.model.vo.interfaceInfo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.lms.lmscommon.common.BaseVO;
+import com.lms.common.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
 /**
  * @author lms2000
  * @since 2024-02-01

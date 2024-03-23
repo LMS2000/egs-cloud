@@ -1,9 +1,7 @@
 package com.lms.sqlfather.service;
 
-import com.lms.lmscommon.common.DeleteFlagEntity;
 import com.lms.lmscommon.common.DeleteRequest;
 import com.lms.lmscommon.model.dto.report.ReportAddRequest;
-import net.datafaker.Bool;
 
 /**
  * @author lms2000

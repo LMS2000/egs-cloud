@@ -2,7 +2,7 @@ package com.lms.sqlfather.core.builder.sql;
 
 
 import com.lms.contants.HttpCode;
-import com.lms.lmscommon.common.BusinessException;
+import com.lms.exception.BusinessException;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

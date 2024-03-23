@@ -3,7 +3,7 @@ package com.lms.sqlfather.config;
 
 
 import com.lms.contants.HttpCode;
-import com.lms.lmscommon.common.BusinessException;
+import com.lms.exception.BusinessException;
 import lombok.Data;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.InitializingBean;

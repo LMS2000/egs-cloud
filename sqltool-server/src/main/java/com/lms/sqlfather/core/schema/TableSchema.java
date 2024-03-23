@@ -110,5 +110,4 @@ public class TableSchema {
          */
         private String foreignTableName;
     }
-
 }

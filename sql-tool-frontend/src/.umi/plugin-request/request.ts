@@ -6,8 +6,8 @@ import axios, {
   type AxiosRequestConfig,
   type AxiosResponse,
   type AxiosError,
-} from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/node_modules/_axios@0.27.2@axios';
-import useUmiRequest, { UseRequestProvider } from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/node_modules/_@ahooksjs_use-request@2.8.15@@ahooksjs/use-request';
+} from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/node_modules/_axios@0.27.2@axios';
+import useUmiRequest, { UseRequestProvider } from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/node_modules/_@ahooksjs_use-request@2.8.15@@ahooksjs/use-request';
 import { ApplyPluginsType } from 'umi';
 import { getPluginManager } from '../core/plugin';
 
@@ -26,7 +26,7 @@ import {
   PaginatedOptionsWithFormat,
   PaginatedParams,
   PaginatedResult,
-} from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/node_modules/_@ahooksjs_use-request@2.8.15@@ahooksjs/use-request/es/types';
+} from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/node_modules/_@ahooksjs_use-request@2.8.15@@ahooksjs/use-request/es/types';
 
 type ResultWithData< T = any > = { data?: T; [key: string]: any };
 

@@ -2,12 +2,12 @@ package com.lms.sqlfather.core.builder;
 
 import cn.hutool.core.util.StrUtil;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.sqlfather.core.model.dto.TypescriptTypeGenerateDTO;
 import com.lms.sqlfather.core.model.dto.TypescriptTypeGenerateDTO.FieldDTO;
 import com.lms.sqlfather.core.model.enums.FieldTypeEnum;
 import com.lms.sqlfather.core.schema.TableSchema;
 import com.lms.sqlfather.core.schema.TableSchema.Field;
-import com.lms.lmscommon.common.BusinessException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import lombok.SneakyThrows;

@@ -2,12 +2,12 @@ package com.lms.sqlfather.core.builder;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.sqlfather.core.generator.DataGenerator;
 import com.lms.sqlfather.core.generator.DataGeneratorFactory;
 import com.lms.sqlfather.core.model.enums.MockTypeEnum;
 import com.lms.sqlfather.core.schema.TableSchema;
 import com.lms.sqlfather.core.schema.TableSchema.Field;
-import com.lms.lmscommon.common.BusinessException;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.*;

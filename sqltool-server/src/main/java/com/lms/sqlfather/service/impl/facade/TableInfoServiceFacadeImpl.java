@@ -2,11 +2,11 @@ package com.lms.sqlfather.service.impl.facade;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.common.DeleteRequest;
 import com.lms.lmscommon.constant.UserConstant;
 import com.lms.lmscommon.model.entity.TableInfo;
 import com.lms.lmscommon.model.vo.user.UserVO;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.sqlfather.service.TableInfoService;
 import com.lms.sqlfather.service.TableInfoServiceFacade;
 import com.lms.sqlfather.service.UserService;

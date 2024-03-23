@@ -4,6 +4,7 @@ import GenerateResultCard from '@/components/GenerateResultCard';
 import ImportTableDrawer from '@/components/ImportTableDrawer';
 import JsonInputModal from '@/components/JsonInputModal';
 import SqlInputModal from '@/components/SqlInputModal';
+import GeneatedCodeModal from '@/components/GenerateCodeModel'
 import { generateBySchema, getSchemaByExcel } from '@/services/sqlService';
 import { getTableInfoById } from '@/services/tableInfoService';
 import { PageContainer } from '@ant-design/pro-components';
@@ -37,6 +38,7 @@ const IndexPage: React.FC = () => {
   const [sqlInputModalVisible, setSqlInputModalVisible] = useState(false);
   const [importTableDrawerVisible, setImportTableDrawerVisible] =
     useState(false);
+	const [generateModelVisible,setGenerateModelVisible]= useState(false);
   const [genLoading, setGenLoading] = useState(false);
   const formInputRef: any = useRef();
   const [layout, setLayout] = useState('half');
@@ -160,6 +162,9 @@ const IndexPage: React.FC = () => {
         <Upload {...uploadProps}>
           <Button>导入 Excel</Button>
         </Upload>
+				<Button onClick={() => setGenerateModelVisible(true)}>
+				  SQL生成代码
+				</Button>
       </Space>
       <div style={{ marginTop: 16 }} />
       <FormInput ref={formInputRef} onSubmit={doGenerateBySchema} />
@@ -219,6 +224,10 @@ const IndexPage: React.FC = () => {
         visible={sqlInputModalVisible}
         onClose={() => setSqlInputModalVisible(false)}
       />
+			<GeneatedCodeModal
+			  visible={generateModelVisible}
+			  onClose={() => setGenerateModelVisible(false)}
+			/>
       <ImportTableDrawer
         onImport={(tableInfo) => {
           formInputRef.current.setFormValues(JSON.parse(tableInfo.content));

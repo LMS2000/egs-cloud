@@ -5,17 +5,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lms.lmscommon.common.ResultUtils;
 import com.lms.lmscommon.model.dto.generator.GeneratorQueryRequest;
 import com.lms.lmscommon.model.vo.generator.GeneratorVO;
-import com.lms.sqlfather.config.CacheManager;
+import com.lms.redis.RedisCache;
 import com.lms.sqlfather.service.impl.facade.GeneratorServiceFacadeImpl;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
 
+/**
+ * @author lms2000
+ */
 public class MainVerticle extends AbstractVerticle {
 
-    private CacheManager cacheManager;
+    private RedisCache cacheManager;
 
-    public MainVerticle(CacheManager cacheManager) {
+    public MainVerticle(RedisCache cacheManager) {
         this.cacheManager = cacheManager;
     }
 
@@ -45,7 +48,7 @@ public class MainVerticle extends AbstractVerticle {
                             response.putHeader("content-type", "application/json");
 
                             // 本地缓存
-                            Object cacheValue = cacheManager.get(cacheKey);
+                            Object cacheValue = cacheManager.getCacheObject(cacheKey);
                             if (cacheValue != null) {
                                 // 返回 JSON 响应
                                 response.end(JSONUtil.toJsonStr(ResultUtils.success((Page<GeneratorVO>) cacheValue)));

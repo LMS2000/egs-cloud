@@ -3,13 +3,13 @@
 // DO NOT CHANGE IT MANUALLY!
 import React, { useEffect, useState } from 'react';
 import { ApplyPluginsType } from 'umi';
-import { renderClient, RenderClientOpts } from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/node_modules/_@umijs_renderer-react@4.1.2@@umijs/renderer-react';
+import { renderClient, RenderClientOpts } from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/node_modules/_@umijs_renderer-react@4.1.5@@umijs/renderer-react';
 import { createHistory } from './core/history';
 import { createPluginManager } from './core/plugin';
 import { getRoutes } from './core/route';
 import type { Location } from 'history';
 
-import 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/src/global.less';
+import 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/src/global.less';
 import 'antd/dist/reset.css';
 const publicPath = '/';
 const runtimePublicPath = false;

@@ -4,10 +4,9 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.model.entity.Dict;
-import com.lms.lmscommon.utils.SpringContextUtils;
 import com.lms.sqlfather.core.schema.TableSchema.Field;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.sqlfather.service.DictService;
 import org.apache.commons.lang3.RandomUtils;
 

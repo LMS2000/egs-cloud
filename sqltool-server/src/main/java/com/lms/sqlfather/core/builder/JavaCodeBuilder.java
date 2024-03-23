@@ -2,6 +2,7 @@ package com.lms.sqlfather.core.builder;
 
 import cn.hutool.core.util.StrUtil;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.sqlfather.core.model.dto.JavaEntityGenerateDTO;
 import com.lms.sqlfather.core.model.dto.JavaEntityGenerateDTO.FieldDTO;
 import com.lms.sqlfather.core.model.dto.JavaObjectGenerateDTO;
@@ -9,7 +10,6 @@ import com.lms.sqlfather.core.model.enums.FieldTypeEnum;
 import com.lms.sqlfather.core.model.enums.MockTypeEnum;
 import com.lms.sqlfather.core.schema.TableSchema;
 import com.lms.sqlfather.core.schema.TableSchema.Field;
-import com.lms.lmscommon.common.BusinessException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

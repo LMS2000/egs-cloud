@@ -1,10 +1,10 @@
 package com.lms.sqlfather.service.impl.facade;
 
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.common.DeleteRequest;
 import com.lms.lmscommon.constant.UserConstant;
 import com.lms.lmscommon.model.entity.FieldInfo;
 import com.lms.lmscommon.model.vo.user.UserVO;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.sqlfather.service.FieldInfoService;
 import com.lms.sqlfather.service.FieldInfoServiceFacade;
 import com.lms.sqlfather.service.UserService;

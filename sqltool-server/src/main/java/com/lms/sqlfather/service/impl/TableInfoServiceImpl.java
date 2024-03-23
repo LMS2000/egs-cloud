@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.constant.SqlConstant;
 import com.lms.lmscommon.model.dto.tableinfo.TableInfoAddRequest;
 import com.lms.lmscommon.model.dto.tableinfo.TableInfoQueryRequest;
@@ -16,7 +17,6 @@ import com.lms.lmscommon.model.vo.tableinfo.TableInfoVO;
 import com.lms.sqlfather.core.GeneratorFacade;
 import com.lms.sqlfather.core.builder.SqlBuilder;
 import com.lms.sqlfather.core.schema.TableSchema;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.sqlfather.mapper.TableInfoMapper;
 
 import com.lms.sqlfather.service.TableInfoService;

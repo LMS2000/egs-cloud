@@ -6,11 +6,10 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.lms.contants.HttpCode;
-import com.lms.lmscommon.common.BusinessException;
+import com.lms.exception.BusinessException;
 import com.lms.maker.meta.Meta;
 import org.mapstruct.Named;
 
-import java.sql.Struct;
 import java.util.List;
 
 public class MapStructUtil {

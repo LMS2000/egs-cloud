@@ -1,7 +1,7 @@
 package com.lms.sqlfather.vertx;
 
 
-import com.lms.sqlfather.config.CacheManager;
+import com.lms.redis.RedisCache;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import org.springframework.stereotype.Component;
@@ -9,11 +9,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+/**
+ * @author lms2000
+ */
 @Component
 public class VertxManager {
 
     @Resource
-    private CacheManager cacheManager;
+    private RedisCache cacheManager;
 
     @PostConstruct
     public void init() {

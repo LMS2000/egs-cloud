@@ -1,13 +1,11 @@
 package com.lms.lmscommon.model.vo.user;
 
-import com.lms.lmscommon.common.BaseVO;
+import com.lms.common.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**

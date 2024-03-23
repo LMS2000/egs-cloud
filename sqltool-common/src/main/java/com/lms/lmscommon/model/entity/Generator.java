@@ -1,10 +1,9 @@
 package com.lms.lmscommon.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.lms.lmscommon.common.DeleteFlagEntity;
+import com.lms.common.DeleteFlagEntity;
 import lombok.*;
 
-import java.util.Date;
 /**
  * 代码生成器
  *

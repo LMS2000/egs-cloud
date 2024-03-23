@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.constant.StatusConstant;
 import com.lms.lmscommon.model.dto.interfaceInfo.AddInterfaceInfoRequest;
 import com.lms.lmscommon.model.dto.interfaceInfo.PageInterfaceInfoRequest;
@@ -14,7 +15,6 @@ import com.lms.lmscommon.model.enums.MethodEnum;
 
 import com.lms.lmscommon.model.vo.interfaceInfo.InterfaceInfoVO;
 import com.lms.lmscommon.utils.MybatisUtils;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.sqlfather.mapper.InterfaceInfoMapper;
 
 import com.lms.sqlfather.service.InterfaceInfoService;

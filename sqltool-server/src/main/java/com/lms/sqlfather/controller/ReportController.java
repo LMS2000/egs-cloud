@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.constant.UserConstant;
 import com.lms.lmscommon.model.dto.report.ReportAddRequest;
 import com.lms.lmscommon.model.dto.report.ReportQueryRequest;
@@ -13,7 +14,6 @@ import com.lms.lmscommon.model.vo.report.ReportVO;
 import com.lms.result.EnableResponseAdvice;
 import com.lms.sqlfather.annotation.AuthCheck;
 import com.lms.lmscommon.common.DeleteRequest;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.sqlfather.service.ReportService;
 import com.lms.sqlfather.service.ReportServiceFacade;
 import io.swagger.annotations.Api;
@@ -22,7 +22,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 

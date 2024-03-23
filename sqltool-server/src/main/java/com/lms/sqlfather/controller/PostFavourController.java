@@ -4,9 +4,9 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.model.dto.postfavour.PostFavourAddRequest;
 import com.lms.lmscommon.model.dto.postfavour.PostFavourQueryRequest;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.lmscommon.model.vo.generator.GeneratorVO;
 import com.lms.result.EnableResponseAdvice;
 import com.lms.sqlfather.service.PostFavourService;
@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 帖子收藏控制类

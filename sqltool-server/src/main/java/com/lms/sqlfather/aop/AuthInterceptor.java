@@ -2,9 +2,9 @@ package com.lms.sqlfather.aop;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.model.vo.user.UserVO;
 import com.lms.sqlfather.annotation.AuthCheck;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.sqlfather.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;

@@ -6,6 +6,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.constant.UserConstant;
 import com.lms.lmscommon.model.dto.dict.DictAddRequest;
 import com.lms.lmscommon.model.dto.dict.DictQueryRequest;
@@ -15,7 +16,6 @@ import com.lms.result.EnableResponseAdvice;
 import com.lms.lmscommon.common.DeleteRequest;
 
 import com.lms.sqlfather.core.model.vo.GenerateVO;
-import com.lms.lmscommon.common.BusinessException;
 
 import com.lms.sqlfather.service.DictService;
 import com.lms.sqlfather.service.DictServiceFacade;

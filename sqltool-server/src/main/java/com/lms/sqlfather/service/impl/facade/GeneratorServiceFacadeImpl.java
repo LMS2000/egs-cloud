@@ -9,6 +9,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lms.contants.HttpCode;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.common.DeleteRequest;
 import com.lms.lmscommon.constant.UserConstant;
 import com.lms.lmscommon.model.dto.generator.GeneratorEditRequest;
@@ -21,8 +22,6 @@ import com.lms.lmscommon.model.vo.generator.GeneratorVO;
 import com.lms.lmscommon.model.vo.user.UserVO;
 import com.lms.maker.meta.Meta;
 import com.lms.redis.RedisCache;
-import com.lms.lmscommon.common.BusinessException;
-import com.lms.sqlfather.config.CacheManager;
 import com.lms.sqlfather.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -51,10 +50,10 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
 
     private final PostThumbService postThumbService;
     private final PostFavourService postFavourService;
-    private final CacheManager cacheManager;
+    private final RedisCache cacheManager;
 
     @Autowired
-    public GeneratorServiceFacadeImpl(GeneratorService generatorService, @Qualifier("userServiceImpl") UserService userService, PostThumbService postThumbService, PostFavourService postFavourService, CacheManager cacheManager) {
+    public GeneratorServiceFacadeImpl(GeneratorService generatorService, @Qualifier("userServiceImpl") UserService userService, PostThumbService postThumbService, PostFavourService postFavourService, RedisCache cacheManager) {
         this.generatorService = generatorService;
         this.userService = userService;
         this.postThumbService = postThumbService;
@@ -138,7 +137,7 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
         long size = generatorQueryRequest.getPageSize();
         // 优先从缓存读取
         String cacheKey = getPageCacheKey(generatorQueryRequest);
-        Object cacheValue = cacheManager.get(cacheKey);
+        Object cacheValue = cacheManager.getCacheObject(cacheKey);
         if (cacheValue != null) {
             return (Page<GeneratorVO>) cacheValue;
         }
@@ -160,7 +159,7 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
         Page<GeneratorVO> generatorVOPage = this.getGeneratorVOPage(generatorPage);
 
         // 写入缓存
-        cacheManager.put(cacheKey, generatorVOPage);
+        cacheManager.setCacheObject(cacheKey, generatorVOPage);
         return generatorVOPage;
     }
     /**

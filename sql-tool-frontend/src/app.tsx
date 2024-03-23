@@ -68,9 +68,11 @@ export const request: RequestConfig = {
         throw new Error('服务异常');
       }
 			 const code = data.code ?? 50000;
+			 console.log(path)
       // 下载接口没有 code
       if (path.includes('download/data/excel')||path.includes('/api/generator/make')
-			|| path.includes('/api/generator/use')||path.includes('/api/generator/download')) {
+			|| path.includes('/api/generator/use')||path.includes('/api/generator/download')
+			||path.includes('/api/sql/generate/code')) {
 				if(data.code&&(code===50000||code===50001||code===40100)){
 					throw new Error(data.msg ?? '服务器错误');
 				}

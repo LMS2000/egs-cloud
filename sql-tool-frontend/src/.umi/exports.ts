@@ -5,19 +5,19 @@
 export { defineApp } from './core/defineApp'
 export type { RuntimeConfig } from './core/defineApp'
 // plugins
-export { Access, useAccess, useAccessMarkedRoutes } from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/src/.umi/plugin-access';
-export { Provider, useModel } from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/src/.umi/plugin-model';
-export { useRequest, UseRequestProvider, request, getRequestInstance } from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/src/.umi/plugin-request';
+export { Access, useAccess, useAccessMarkedRoutes } from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/src/.umi/plugin-access';
+export { Provider, useModel } from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/src/.umi/plugin-model';
+export { useRequest, UseRequestProvider, request, getRequestInstance } from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/src/.umi/plugin-request';
 // plugins types.d.ts
-export * from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/src/.umi/plugin-access/types.d';
-export * from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/src/.umi/plugin-antd/types.d';
-export * from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/src/.umi/plugin-layout/types.d';
-export * from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/src/.umi/plugin-request/types.d';
+export * from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/src/.umi/plugin-access/types.d';
+export * from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/src/.umi/plugin-antd/types.d';
+export * from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/src/.umi/plugin-layout/types.d';
+export * from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/src/.umi/plugin-request/types.d';
 // @umijs/renderer-*
-export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/node_modules/_@umijs_renderer-react@4.1.2@@umijs/renderer-react';
-export type { History } from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/node_modules/_@umijs_renderer-react@4.1.2@@umijs/renderer-react'
+export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/node_modules/_@umijs_renderer-react@4.1.5@@umijs/renderer-react';
+export type { History } from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/node_modules/_@umijs_renderer-react@4.1.5@@umijs/renderer-react'
 // umi/client/client/plugin
-export { ApplyPluginsType, PluginManager } from 'D:/sqlfather-pro/sqlfather-backend/sql-tool-frontend/node_modules/_umi@4.1.2@umi/client/client/plugin.js';
+export { ApplyPluginsType, PluginManager } from 'E:/sqltool-cloud/sqltool-cloud/sql-tool-frontend/node_modules/_umi@4.1.5@umi/client/client/plugin.js';
 export { history, createHistory } from './core/history';
 export { terminal } from './core/terminal';
 // react ssr

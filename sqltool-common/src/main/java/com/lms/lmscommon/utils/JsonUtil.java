@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.type.CollectionLikeType;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.lms.contants.HttpCode;
-import com.lms.lmscommon.common.BusinessException;
+import com.lms.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;

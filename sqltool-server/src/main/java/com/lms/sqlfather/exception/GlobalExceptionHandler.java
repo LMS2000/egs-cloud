@@ -3,7 +3,7 @@ package com.lms.sqlfather.exception;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import com.lms.contants.HttpCode;
-import com.lms.lmscommon.common.BusinessException;
+import com.lms.exception.BusinessException;
 import com.lms.result.ResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;

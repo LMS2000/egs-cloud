@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lms.exception.BusinessException;
 import com.lms.lmscommon.constant.StatusConstant;
 import com.lms.lmscommon.model.dto.userInterfaceInfo.PageUserInterfaceInfoRequest;
 import com.lms.lmscommon.model.entity.UserInterfaceInfo;
@@ -12,7 +13,6 @@ import com.lms.lmscommon.utils.MybatisUtils;
 import com.lms.result.EnableResponseAdvice;
 import com.lms.sqlfather.annotation.AuthCheck;
 import com.lms.lmscommon.constant.UserConstant;
-import com.lms.lmscommon.common.BusinessException;
 import com.lms.sqlfather.service.UserInterfaceInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

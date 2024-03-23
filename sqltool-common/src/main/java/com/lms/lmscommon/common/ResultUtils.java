@@ -1,5 +1,6 @@
 package com.lms.lmscommon.common;
 
+import com.lms.common.BaseResponse;
 import com.lms.contants.HttpCode;
 
 /**
