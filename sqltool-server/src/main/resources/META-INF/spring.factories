@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.lms.sqlfather.config.OssAutoConfiguration, \
 com.lms.sqlfather.config.WechatProperties,com.lms.sqlfather.config.GiteeProperties, \
-com.lms.sqlfather.config.LogProperties
+com.lms.sqlfather.config.LogProperties,com.lms.sqlfather.config.MyMQProperties

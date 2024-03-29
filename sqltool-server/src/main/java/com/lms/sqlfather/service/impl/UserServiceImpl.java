@@ -19,8 +19,8 @@ import com.lms.lmscommon.constant.CommonConstant;
 import com.lms.lmscommon.constant.EmailConstant;
 import com.lms.lmscommon.constant.FileConstant;
 import com.lms.lmscommon.constant.UserConstant;
+import com.lms.lmscommon.model.dto.email.EmailMessage;
 import com.lms.lmscommon.model.dto.email.SendEmailRequest;
-import com.lms.lmscommon.model.dto.email.SysSettingsRequest;
 import com.lms.lmscommon.model.dto.user.*;
 import com.lms.lmscommon.model.entity.User;
 import com.lms.lmscommon.model.enums.RoleEnum;
@@ -33,6 +33,7 @@ import com.lms.result.ResultData;
 import com.lms.sqlfather.client.OssClient;
 import com.lms.sqlfather.config.AppConfig;
 import com.lms.sqlfather.mapper.UserMapper;
+import com.lms.sqlfather.message.provider.EmailMessageProvider;
 import com.lms.sqlfather.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,13 +56,16 @@ import static com.lms.lmscommon.constant.UserConstant.*;
 import static com.lms.lmscommon.model.factory.UserFactory.USER_CONVERTER;
 
 
+/**
+ * @author lms2000
+ */
 @Slf4j
 @Service
 @AllArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
 
-    private final JavaMailSender javaMailSender;
+    private final EmailMessageProvider emailMessageProvider;
 
 
     /**
@@ -136,7 +140,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         BeanUtils.copyProperties(userUpdateRequest, user);
         return this.updateById(user);
-
     }
 
     @Override
@@ -154,11 +157,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String email = sendEmailRequest.getEmail();
         Integer type = sendEmailRequest.getType();
         //检查redis中是否有相同的邮箱
-        boolean hasCode = redisCache.getCacheObject(EmailConstant.EMAIIL_HEADER + type + "_" + email) != null;
+        boolean hasCode = redisCache.getCacheObjectOnlyRedis(EmailConstant.EMAIIL_HEADER + type + "_" + email) != null;
+
         BusinessException.throwIf(hasCode, HttpCode.PARAMS_ERROR, "重复发送邮件");
-        String emailCode = sendEmail(email, type);
-        //设置15分钟的失效时间
-        redisCache.setCacheObject(EmailConstant.EMAIIL_HEADER + type + "_" + email, emailCode, 15, TimeUnit.MINUTES);
+        EmailMessage sysSettingsRequest=new EmailMessage();
+        sysSettingsRequest.setEmail(email);
+        sysSettingsRequest.setMsgType(type);
+        emailMessageProvider.sendMessage(sysSettingsRequest);
         return true;
     }
 
@@ -365,7 +370,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         //随机的邮箱验证码
         String code = StringTools.getRandomNumber(CommonConstant.LENGTH_5);
-        sendEmailCode(email, code);
+//        sendEmailCode(email, code);
         return code;
     }
 
@@ -380,30 +385,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         String encodePassword = DigestUtils.md5DigestAsHex((SALT + password).getBytes());
         return this.update(new UpdateWrapper<User>().set("user_password", encodePassword));
-    }
-
-    private void sendEmailCode(String toEmail, String code) {
-        try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            //邮件发件人
-            helper.setFrom(appConfig.getSendUserName());
-            //邮件收件人 1或多个
-            helper.setTo(toEmail);
-
-            SysSettingsRequest sysSettingsDto = new SysSettingsRequest();
-
-            //邮件主题
-            helper.setSubject(sysSettingsDto.getRegisterEmailTitle());
-            //邮件内容
-            helper.setText(String.format(sysSettingsDto.getRegisterEmailContent(), code));
-            //邮件发送时间
-            helper.setSentDate(new Date());
-            javaMailSender.send(message);
-        } catch (Exception e) {
-            log.error("邮件发送失败", e);
-            throw new BusinessException(HttpCode.OPERATION_ERROR, "邮件发送失败");
-        }
     }
 }
