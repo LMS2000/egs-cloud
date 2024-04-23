@@ -289,7 +289,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             BusinessException.throwIf(aLong > 0, "账号已存在！");
 
             // 3. 插入数据
-            User user = User.builder().username(username).nickname(nickname).build();
+            User user = new User();
+            user.setUsername(username);
+            user.setNickname(nickname);
             String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
             user.setUserPassword(encryptPassword);
             user.setUserRole(DEFAULT_ROLE);

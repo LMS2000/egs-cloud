@@ -12,9 +12,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "user")
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class User extends DeleteFlagEntity {
 
 

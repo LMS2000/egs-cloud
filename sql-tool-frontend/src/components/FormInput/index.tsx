@@ -681,24 +681,7 @@ const  getCurTableNames=()=>{
 						<Button type="primary" htmlType="submit" style={{ width: 180 }}>
 							一键生成
 						</Button>
-						<Button
-							onClick={() => {
-								const fieldList = form.getFieldsValue().fieldList;
-								if (!fieldList || fieldList.length < 1) {
-									message.error('至少新增 1 个字段');
-									return;
-								}
-								const values = form.getFieldsValue();
-								
-								setCreateTableInfo({
-									name: values.tableComment,
-									content: JSON.stringify(values),
-								} as TableInfoType.TableInfo);
-								setTableInfoCreateModalVisible(true);
-							}}
-						>
-							保存表
-						</Button>
+		
 						<Button
 							onClick={() => {
 								copy(JSON.stringify(form.getFieldsValue()));

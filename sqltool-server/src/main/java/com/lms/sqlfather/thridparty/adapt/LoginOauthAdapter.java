@@ -91,7 +91,13 @@ public class LoginOauthAdapter implements LoginOauthTarget {
         if(ObjectUtils.isEmpty(user)){ //如果第一次登录
             String accessKey = DigestUtil.md5Hex(SALT + userName + RandomUtil.randomNumbers(5));
             String secretKey = DigestUtil.md5Hex(SALT + userName + RandomUtil.randomNumbers(8));
-            user=User.builder().nickname(userName).userAvatar(avatarUrl).username(userName).userPassword(userName).accessKey(accessKey).secretKey(secretKey).build();
+            user=new User();
+            user.setNickname(userName);
+            user.setUserAvatar(avatarUrl);
+            user.setUsername(userName);
+            user.setUserPassword(userName);
+            user.setAccessKey(accessKey);
+            user.setSecretKey(secretKey);
             userService.save(user);
         }
 //        UserVO userVO=new UserVO();
@@ -131,7 +137,14 @@ public class LoginOauthAdapter implements LoginOauthTarget {
         if(ObjectUtils.isEmpty(user)){ //如果第一次登录
             String accessKey = DigestUtil.md5Hex(SALT + userName + RandomUtil.randomNumbers(5));
             String secretKey = DigestUtil.md5Hex(SALT + userName + RandomUtil.randomNumbers(8));
-            user=User.builder().nickname(userName).username(RandomUtil.randomNumbers(8)).userAvatar(avatarUrl).openId(openId).userPassword(userName).accessKey(accessKey).secretKey(secretKey).build();
+            user=new User();
+            user.setNickname(userName);
+            user.setUserAvatar(avatarUrl);
+            user.setUsername(userName);
+            user.setUserPassword(userName);
+            user.setAccessKey(accessKey);
+            user.setSecretKey(secretKey);
+            user.setOpenId(openId);
             userService.save(user);
         }
         UserVO userVO = USER_CONVERTER.toUserVo(user);

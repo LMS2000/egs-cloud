@@ -13,8 +13,6 @@ import lombok.*;
 @TableName(value = "generator")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Generator extends DeleteFlagEntity {
 
 

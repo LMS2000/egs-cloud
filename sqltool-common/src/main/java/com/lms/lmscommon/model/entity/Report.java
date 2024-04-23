@@ -12,8 +12,6 @@ import lombok.*;
 @TableName(value ="report")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Report extends DeleteFlagEntity {
 
 

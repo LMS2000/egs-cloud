@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: sqltool-server
+
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        namespace: 980d0b00-615a-47ec-9160-7745bcbac5e0
+        ip: localhost

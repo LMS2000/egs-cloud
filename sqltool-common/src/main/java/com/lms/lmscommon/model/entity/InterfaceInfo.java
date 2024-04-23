@@ -11,9 +11,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value ="interface_info")
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class InterfaceInfo extends DeleteFlagEntity {
 
     /**

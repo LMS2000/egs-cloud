@@ -93,27 +93,4 @@ public class EmailMessageConsumer {
             throw new BusinessException(HttpCode.OPERATION_ERROR,"rabbitmq ACK消息失败 deliveryTag:"+deliveryTag);
         }
     }
-    // 不可以这样写，事务channel需要commit还要close
-//    private void acknowledgeMessage(long deliveryTag) {
-//        try{
-//            log.info("deliveryTag:"+deliveryTag+"  消息确认");
-//            Channel channel = rabbitTemplate.getConnectionFactory().createConnection().createChannel(false);
-//            channel.basicAck(deliveryTag, false);
-//        }catch (IOException e){
-//            throw new BusinessException(HttpCode.OPERATION_ERROR,"rabbitmq ACK消息失败");
-//        }
-//    }
-    // 错误处理器
-//    public class MyErrorHandler implements RabbitListenerErrorHandler {
-//        @Override
-//        public Object handleError(Message message, org.springframework.messaging.Message<?> message1, ListenerExecutionFailedException e) throws Exception {
-//            // 错误处理逻辑
-//            // 可以在这里记录日志或者进行其他处理
-//            // 然后手动确认消息，防止消息被重新入队
-//            long deliveryTag = (long) message1.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
-//            acknowledgeMessage(deliveryTag);
-//            throw new BusinessException(HttpCode.OPERATION_ERROR,e.getMessage());
-//        }
-//    }
-
 }

@@ -1,0 +1,18 @@
+server:
+  port: 8102
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+    context-path: /api
+  application:
+    name: sql-tool-server
+  # session 30 天过期
+  session:
+    timeout: "P30D"
+    cookie:
+      same-site: none
+      secure: true
+spring:
+  profiles:
+    active: prod

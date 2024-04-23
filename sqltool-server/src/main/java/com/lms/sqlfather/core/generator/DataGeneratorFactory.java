@@ -17,7 +17,6 @@ public class DataGeneratorFactory {
     private static final Map<MockTypeEnum,DataGenerator> DATA_GENERATOR_POOL=new HashMap<MockTypeEnum,DataGenerator>(){{
         put(MockTypeEnum.NONE,new DefaultDataGenerator());
         put(MockTypeEnum.FIXED,new FixedDataGenerator());
-        // 因为dictService 注入不了所以 静态代码块初始化不了
         put(MockTypeEnum.DICT,new DictGenerator());
         put(MockTypeEnum.INCREASE,new IncreaseDataGenerator());
         put(MockTypeEnum.RANDOM,new RandomDataGenerator());

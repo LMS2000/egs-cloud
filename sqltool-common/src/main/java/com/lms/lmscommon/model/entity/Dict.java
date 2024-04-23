@@ -12,8 +12,6 @@ import lombok.*;
 @TableName(value ="dict")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Dict extends DeleteFlagEntity {
 
 

@@ -12,8 +12,6 @@ import lombok.*;
 @TableName(value ="field_info")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class FieldInfo extends DeleteFlagEntity {
 
 

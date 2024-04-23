@@ -168,7 +168,7 @@ public class FieldInfoController {
     @ApiOperationSupport(order = 7)
     @ApiOperation(value = "分页获取当前用户可选的field列表）")
     public Page<FieldInfoVO> listMyFieldInfoByPage(FieldInfoQueryRequest fieldInfoQueryRequest) {
-        Long loginId = (Long) StpUtil.getLoginId();
+        Long loginId = Long.parseLong((String) StpUtil.getLoginId());
         return fieldInfoService.pageMyFieldInfo(fieldInfoQueryRequest, loginId);
 
     }

@@ -137,7 +137,7 @@ export default () => {
     
 		<div
 		style={{
-			height: '87vh',
+			height: '80vh',
 		
 			background:
 				'url(https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png)',
@@ -146,14 +146,7 @@ export default () => {
 		}}>
 		
 		<div
-			style={{
-				height: '87vh',
-				marginTop:'50px',
-				background:
-					'url(https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png)',
-				backgroundSize: '60% 60%',
-				padding: '8px 0 0px',
-			}}>
+			>
 			<LoginForm<any>
 				logo={Logo}
 				title="EGS云平台"
@@ -267,7 +260,7 @@ export default () => {
 					<>
 		
 						<ProFormText
-							name="userName"
+							name="username"
 							fieldProps={{
 								size: 'large',
 								prefix: <UserOutlined className={'prefixIcon'} />,
@@ -281,20 +274,7 @@ export default () => {
 								},
 							]}
 						/>
-						<ProFormText
-							name="username"
-							fieldProps={{
-								size: 'large',
-								prefix: <UserOutlined className={'prefixIcon'} />,
-							}}
-							placeholder={'请输入账号（至少 4 位）'}
-							rules={[
-								{
-									required: true,
-									message: '请输入账号!',
-								},
-							]}
-						/>
+				
 						<ProFormText.Password
 							name="userPassword"
 							fieldProps={{

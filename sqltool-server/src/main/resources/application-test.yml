@@ -1,0 +1,125 @@
+
+spring:
+  http:
+    server:
+      maxRequestSize: 200
+      maxFileSize: 200
+  cloud:
+    nacos:
+      discovery:
+        namespace: 980d0b00-615a-47ec-9160-7745bcbac5e0
+
+
+  # 支持 swagger3
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sqlfather?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+
+  redis:
+    port: 6379
+    host: 47.120.1.239
+    password: c219034
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 956287248@qq.com
+    password: xxxxxxxxxxxxxxxxx
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+        debug: true
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleteFlag # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+
+#开启swagger配置
+swagger:
+  open: true
+  scanPackage: com.lms.sqlfather
+  title: sqltool-server
+  version: 1.0.0
+  description: sql生成工具
+
+lms:
+  global:
+    enableRedis: true
+# 文件存储的路径
+oss:
+  #root-path: C:\Users\zdh\Desktop\test
+  accessKey: xxxxxxxxxxxxxx
+  secretKey: xxxxxxxxxxxxxx
+  #endpoint: http://119.91.143.140:20001
+  endpoint: xxxxxxxxxxx.com
+  localOssClient: false
+  pathStyleAccess: false
+  bucketName: sxxxxx
+yuapi:
+  client:
+    access-key: xxxxxxxxxxxx
+    secret-key: xxxxxxxxxxxxxx
+gitee:
+  clientId: xxxxxxxxxxxxxxxxxxxxx
+  clientSecret: xxxxxxxxxxxxxxxxxxxxx
+  callBack: http://localhost:8090/api/oauth/gitee
+  giteeState: GITEE
+  userPrefix: ${gitee.giteeState}@
+  tokenUrl: https://gitee.com/oauth/token?grant_type=authorization_code&client_id=${gitee.clientId}&client_secret=${gitee.clientSecret}&redirect_uri=${gitee.callback}&code=
+  userUrl: https://gitee.com/api/v5/user?access_token=
+
+wechat:
+  appid: xxxx
+  secret: xxxxx
+  state: lms2000wechat
+app:
+  log:
+    enabled: false
+    errorLog: true
+    level: NONE
+  amqp:
+    host: xxxxx  # 安装rabbitmq的ip
+    username: xxx # rabbitmq的账号
+    password: xxx # rabbitmq的密码
+    port: 5672
+    exchanges:
+      ex-delay-topic-email:
+        name: ex.delay.topic.email
+        type: topic
+        delayed: false
+    queues:
+      mq-lms-router-message-email:
+        name: mq.lms.router.message.email
+
+
+
+
+sa-token:
+  # token 名称（同时也是 cookie 名称）
+  token-name: lmstoken
+  # token 有效期（单位：秒） 默认30天，-1 代表永久有效
+  timeout: 2592000
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: true
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true

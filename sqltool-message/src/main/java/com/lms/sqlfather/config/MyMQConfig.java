@@ -46,7 +46,7 @@ public class MyMQConfig {
         return rabbitTemplate;
     }
     @Bean
-    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory, MessageConverter messageConverter) {
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(RabbitTemplate rabbitTemplate,ConnectionFactory connectionFactory, MessageConverter messageConverter) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
         factory.setConnectionFactory(connectionFactory);
