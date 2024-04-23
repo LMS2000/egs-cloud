@@ -111,3 +111,5 @@ fabric.properties
 /sqltool-server/target/
 /.temp/
 /sql-tool-frontend/node_modules/
+
+/sqltool-server/src/main/resources/application-prod.yml
