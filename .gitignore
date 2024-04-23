@@ -40,7 +40,7 @@ replay_pid*
 
 # Generated files
 .idea/**/contentModel.xml
-
+/sqltool-server/src/main/resources/application-prod.yml
 # Sensitive or high-churn files
 .idea/**/dataSources/
 .idea/**/dataSources.ids
@@ -112,4 +112,3 @@ fabric.properties
 /.temp/
 /sql-tool-frontend/node_modules/
 
-/sqltool-server/src/main/resources/application-prod.yml
