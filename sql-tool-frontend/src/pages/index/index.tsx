@@ -159,9 +159,6 @@ const IndexPage: React.FC = () => {
         <Button onClick={() => setSqlInputModalVisible(true)}>
           导入建表 SQL
         </Button>
-        <Upload {...uploadProps}>
-          <Button>导入 Excel</Button>
-        </Upload>
 				<Button onClick={() => setGenerateModelVisible(true)}>
 				  SQL生成代码
 				</Button>
@@ -230,7 +227,24 @@ const IndexPage: React.FC = () => {
 			/>
       <ImportTableDrawer
         onImport={(tableInfo) => {
-          formInputRef.current.setFormValues(JSON.parse(tableInfo.content));
+					const tableSchema=  JSON.parse(tableInfo.content);
+					const beforeTableSchema =formInputRef.current.getFormValues()
+					const tables= beforeTableSchema.tableList;
+					console.log(beforeTableSchema)
+					//更新原有的table列表的元素
+					if(tableSchema!==undefined&&tableSchema.tableList!==undefined&&tables!==undefined){
+						
+						 for(let i=0;i<tableSchema.tableList.length;i++){
+							 	 tables.push(tableSchema.tableList[i]);
+						 }
+					
+						 formInputRef.current.setFormValues(beforeTableSchema);
+					
+					}else if(beforeTableSchema===undefined||tables===undefined){
+						 formInputRef.current.setFormValues(tableSchema);
+					}
+          // formInputRef.current.setFormValues(JSON.parse(tableInfo.content));
+
           setImportTableDrawerVisible(false);
           message.success('导入成功');
         }}

@@ -50,18 +50,19 @@ const AdminUserPage: React.FC<unknown> = () => {
     },
     {
       title: '用户昵称',
-      dataIndex: 'userName',
+      dataIndex: 'nickname',
       valueType: 'text',
     },
     {
       title: '账号',
-      dataIndex: 'userAccount',
+      dataIndex: 'username',
       valueType: 'text',
     },
     {
       title: '用户头像',
       dataIndex: 'userAvatar',
       valueType: 'image',
+			      hideInForm: true,
     },
     {
       title: '性别',
@@ -76,11 +77,16 @@ const AdminUserPage: React.FC<unknown> = () => {
       title: '用户角色',
       dataIndex: 'userRole',
       valueType: 'text',
+			valueEnum: {
+			  'user': { text: '用户' },
+			  'admin': { text: '管理员' },
+			},
     },
 		{
 		  title: '个人简介',
 		  dataIndex: 'profile',
 		  valueType: 'text',
+			hideInForm: true,
 		},
 		{
 		  title: '邮箱',
@@ -164,7 +170,10 @@ const AdminUserPage: React.FC<unknown> = () => {
       <CreateModal
         modalVisible={createModalVisible}
         columns={columns}
-        onSubmit={() => {}}
+        onSubmit={() => {
+					setUpdateModalVisible(false);
+					actionRef.current?.reload();
+					}}
         onCancel={() => {
 					
 					setCreateModalVisible(false)}}
@@ -173,7 +182,10 @@ const AdminUserPage: React.FC<unknown> = () => {
         oldData={updateData}
         modalVisible={updateModalVisible}
         columns={columns}
-        onSubmit={() => {}}
+        onSubmit={() => {
+					setUpdateModalVisible(false);
+					actionRef.current?.reload();
+					}}
         onCancel={() => setUpdateModalVisible(false)}
       />
     </PageContainer>

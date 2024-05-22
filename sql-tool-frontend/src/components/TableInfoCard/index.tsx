@@ -26,7 +26,7 @@ interface Props {
  * @constructor
  */
 const TableInfoCard: React.FC<Props> = (props) => {
-  const { title = '个人中心', needLogin = false, showTag = true, onLoad, onImport } = props;
+  const { title = '表信息', needLogin = false, showTag = true, onLoad, onImport } = props;
    
   // 公开数据
   const [dataList, setDataList] = useState<TableInfoType.TableInfo[]>([]);

@@ -200,14 +200,20 @@ const AdminFieldInfoPage: React.FC<unknown> = () => {
       <CreateModal
         modalVisible={createModalVisible}
         columns={columns}
-        onSubmit={() => {}}
+        onSubmit={() => {
+					setCreateModalVisible(false);
+					actionRef.current?.reload();
+				}}
         onCancel={() => setCreateModalVisible(false)}
       />
       <UpdateModal
         modalVisible={updateModalVisible}
         oldData={updateData}
         columns={columns}
-        onSubmit={() => {}}
+        onSubmit={() => {
+					setUpdateModalVisible(false);
+					actionRef.current?.reload();
+				}}
         onCancel={() => setUpdateModalVisible(false)}
       />
     </PageContainer>

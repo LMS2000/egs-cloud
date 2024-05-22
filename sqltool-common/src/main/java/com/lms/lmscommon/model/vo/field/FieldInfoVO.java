@@ -50,4 +50,9 @@ public class FieldInfoVO extends BaseVO {
      */
     @ApiModelProperty("创建用户 id")
     private Long userId;
+    /**
+     * 创建的用户名
+     */
+    @ApiModelProperty("作者名字")
+    private String author;
 }

@@ -10,10 +10,7 @@ import com.lms.lmscommon.model.entity.Dict;
 import com.lms.lmscommon.model.entity.Report;
 import com.lms.lmscommon.model.enums.ReportStatusEnum;
 import com.lms.lmscommon.model.vo.user.UserVO;
-import com.lms.sqlfather.service.DictService;
-import com.lms.sqlfather.service.ReportService;
-import com.lms.sqlfather.service.ReportServiceFacade;
-import com.lms.sqlfather.service.UserService;
+import com.lms.sqlfather.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -29,11 +26,19 @@ public class ReportServiceFacadeImpl implements ReportServiceFacade {
     private final ReportService reportService;
     private final DictService dictService;
     private final UserService userService;
+    private final TableInfoService tableInfoService;
 
-    public ReportServiceFacadeImpl(ReportService reportService, DictService dictService,@Qualifier("userServiceImpl") UserService userService) {
+    private final FieldInfoService fieldInfoService;
+    private final GeneratorService generatorService;
+
+
+    public ReportServiceFacadeImpl(ReportService reportService, DictService dictService, @Qualifier("userServiceImpl") UserService userService, TableInfoService tableInfoService, FieldInfoService fieldInfoService, GeneratorService generatorService) {
         this.reportService = reportService;
         this.dictService = dictService;
         this.userService = userService;
+        this.tableInfoService = tableInfoService;
+        this.fieldInfoService = fieldInfoService;
+        this.generatorService = generatorService;
     }
 
     @Override
@@ -42,14 +47,26 @@ public class ReportServiceFacadeImpl implements ReportServiceFacade {
         BeanUtils.copyProperties(reportAddRequest, report);
         reportService.validReport(report, true);
         Long loginId =Long.parseLong((String) StpUtil.getLoginId());
-        Dict dict = dictService.getById(report.getReportedId());
-        BusinessException.throwIf(dict == null);
-        report.setReportedUserId(dict.getUserId());
+        Long reportedUserId = getReportedUserId(report.getReportedId(), report.getType());
+        report.setReportedUserId(reportedUserId);
         report.setUserId(loginId);
         report.setStatus(ReportStatusEnum.DEFAULT.getValue());
         boolean result = reportService.save(report);
         BusinessException.throwIf(!result, HttpCode.OPERATION_ERROR);
         return report.getId();
+    }
+
+    private Long getReportedUserId(Long typeId,Integer type){
+        switch (type){
+            case 0:
+                return dictService.getById(typeId).getUserId();
+            case 1:
+                return tableInfoService.getById(typeId).getUserId();
+            case 2:
+                return fieldInfoService.getById(typeId).getUserId();
+            default:
+                return generatorService.getById(typeId).getUserId();
+        }
     }
 
     @Override

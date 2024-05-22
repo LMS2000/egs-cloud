@@ -149,7 +149,7 @@ export default () => {
 			>
 			<LoginForm<any>
 				logo={Logo}
-				title="EGS云平台"
+				title="JavaWeb项目后台简易快速生成系统"
 				subTitle="快速构建如愿的项目"
 				formRef={formRef}
 			  className='myForm'
@@ -242,12 +242,9 @@ export default () => {
 						>
 					   
 						<Link  to="/user/findback" >忘记密码</Link>
-						<a href="#">
-						<img src={Wechat} style={{ pointerEvents: 'none', width: '30px', height: '30px', marginRight: '10px',marginLeft:'10px' }} />
-						
-						</a>
+					<span style={{ marginRight: '10px' }}></span>
 						<a href="https://gitee.com/oauth/authorize?client_id=04fb3cba9ad12af442d5bde2e8c0d719d73ffe34765be994231feb92b4a1c1f3&redirect_uri=http%3A%2F%2Flocalhost%3A8090%2Fapi%2Foauth%2Fgitee&response_type=code&state=GITEE">
-							<img src={Gitee} style={{ pointerEvents: 'none', width: '30px', height: '30px', marginRight: '10px' }} />
+							<img src={Gitee} style={{ pointerEvents: 'none', width: '30px', height: '30px',  }} />
 						</a>
 			
 							<Link to="/" style={{

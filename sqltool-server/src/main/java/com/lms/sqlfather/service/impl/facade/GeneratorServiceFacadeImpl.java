@@ -136,11 +136,11 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
         long current = generatorQueryRequest.getCurrent();
         long size = generatorQueryRequest.getPageSize();
         // 优先从缓存读取
-        String cacheKey = getPageCacheKey(generatorQueryRequest);
-        Object cacheValue = cacheManager.getCacheObject(cacheKey);
-        if (cacheValue != null) {
-            return (Page<GeneratorVO>) cacheValue;
-        }
+//        String cacheKey = getPageCacheKey(generatorQueryRequest);
+//        Object cacheValue = cacheManager.getCacheObject(cacheKey);
+//        if (cacheValue != null) {
+//            return (Page<GeneratorVO>) cacheValue;
+//        }
 
         // 限制爬虫
         BusinessException.throwIf(size>20,HttpCode.PARAMS_ERROR);
@@ -159,7 +159,7 @@ public class GeneratorServiceFacadeImpl implements GeneratorServiceFacade {
         Page<GeneratorVO> generatorVOPage = this.getGeneratorVOPage(generatorPage);
 
         // 写入缓存
-        cacheManager.setCacheObject(cacheKey, generatorVOPage);
+//        cacheManager.setCacheObject(cacheKey, generatorVOPage);
         return generatorVOPage;
     }
     /**

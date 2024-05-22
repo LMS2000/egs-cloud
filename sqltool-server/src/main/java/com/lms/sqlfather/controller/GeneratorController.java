@@ -341,7 +341,6 @@ public class GeneratorController {
             }
         }
         // 解压压缩包，得到脚本文件
-
         File unzipDistDir = ZipUtil.unzip(zipFilePath);
 
 
@@ -353,6 +352,7 @@ public class GeneratorController {
         // 执行脚本
         // 找到脚本文件所在路径
         // 要注意，如果不是 windows 系统，找 generator 文件而不是 bat
+
         File scriptFile = FileUtil.loopFiles(unzipDistDir, 2, null)
                 .stream()
                 .filter(file -> file.isFile()
@@ -379,16 +379,19 @@ public class GeneratorController {
         processBuilder.directory(scriptDir);
 
         try {
+            log.info("正在执行命令行过程");
             Process process = processBuilder.start();
 
             // 读取命令的输出
             InputStream inputStream = process.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
+            log.info("正在执行命令行过程2");
+            log.info(dataModel.toString());
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
-
+            log.info("正在执行命令行过程23");
             // 等待命令执行完成
             int exitCode = process.waitFor();
             System.out.println("命令执行结束，退出码：" + exitCode);

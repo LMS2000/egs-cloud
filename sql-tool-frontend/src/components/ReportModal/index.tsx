@@ -6,6 +6,7 @@ import React from 'react';
 interface Props {
   visible: boolean;
   reportedId: number;
+	type: number;
   onClose: () => void;
 }
 
@@ -15,14 +16,14 @@ interface Props {
   * @author https://github.com/LMS2000
  */
 const ReportModal: React.FC<Props> = (props) => {
-  const { visible, reportedId, onClose } = props;
+  const { visible, reportedId, onClose ,type} = props;
   const [form] = Form.useForm();
 
   const onFinish = async (values: any) => {
     const hide = message.loading('正在提交');
     try {
       await addReport({
-        type: 0,
+        type: type,
         content: values.content,
         reportedId,
       });

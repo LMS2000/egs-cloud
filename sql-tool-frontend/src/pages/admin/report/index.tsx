@@ -38,6 +38,24 @@ const AdminReportPage: React.FC<unknown> = () => {
     },
   };
 
+
+  /**
+   * 状态枚举
+   */
+  const typeEnum = {
+    0: {
+      text: '词库',
+    },
+    1: {
+      text: '表信息',
+    },
+		2: {
+		  text: '字段信息',
+		},
+		3: {
+		  text: '生成器信息',
+		},
+  };
   /**
    * 删除节点
    * @param report
@@ -100,6 +118,11 @@ const AdminReportPage: React.FC<unknown> = () => {
       dataIndex: 'content',
       valueType: 'textarea',
     },
+		{
+		  title: '类型',
+		  dataIndex: 'type',
+		  valueEnum: typeEnum,
+		},
     {
       title: '审核状态',
       dataIndex: 'status',
@@ -172,7 +195,7 @@ const AdminReportPage: React.FC<unknown> = () => {
   return (
     <PageContainer>
       <ProTable<ReportType.Report>
-        headerTitle="词条管理"
+ 
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -209,14 +232,20 @@ const AdminReportPage: React.FC<unknown> = () => {
       <CreateModal
         modalVisible={createModalVisible}
         columns={columns}
-        onSubmit={() => {}}
+        onSubmit={() => {
+					setCreateModalVisible(false);
+					actionRef.current?.reload();
+				}}
         onCancel={() => setCreateModalVisible(false)}
       />
       <UpdateModal
         modalVisible={updateModalVisible}
         oldData={updateData}
         columns={columns}
-        onSubmit={() => {}}
+        onSubmit={() => {
+					setUpdateModalVisible(false);
+					actionRef.current?.reload();
+				}}
         onCancel={() => setUpdateModalVisible(false)}
       />
     </PageContainer>

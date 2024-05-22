@@ -28,7 +28,7 @@ export async function getInitialState(): Promise<InitialState> {
  */
 export const layout: RunTimeLayoutConfig = () => {
   return {
-    title: 'EGS云平台',
+    title: 'JavaWeb项目后台简易快速生成系统',
     logo: Logo,
     menu: {
       locale: false,

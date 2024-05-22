@@ -32,6 +32,12 @@ public class UserVO extends BaseVO {
     private String nickname;
 
     /**
+     * 邮箱
+     */
+    @ApiModelProperty("邮箱")
+    private String email;
+
+    /**
      * 用户头像
      */
     @ApiModelProperty("用户头像")

@@ -84,7 +84,7 @@ public class DataBuilder {
               MockTypeEnum mockTypeEnum = Optional.ofNullable(MockTypeEnum.getEnumByValue(field.getMockType()))
                       .orElse(MockTypeEnum.NONE);
               if(mockTypeEnum.equals(MockTypeEnum.related)){
-                  foreignMap.put(tableName,field);
+                  foreignMap.put(String.format("%s.%s", tableName, field.getFieldName()),field);
                   continue;
               }
               //获取生成器
@@ -100,21 +100,20 @@ public class DataBuilder {
           }
       }
       //模拟需要外键的字段
-
       for (Map.Entry<String, Field> stringFieldEntry : foreignMap.entrySet()) {
           Field field = stringFieldEntry.getValue();
-          String foreignKey = field.getForeignKey();
-          String foreignTableName = field.getForeignTableName();
-          String tableName=stringFieldEntry.getKey();
-          Integer rowNum = rowNumMap.get(tableName);
-          List<String> generatorForeignList = generatorMap.getOrDefault(String.format("%s.%s", foreignTableName, foreignKey), null);
 
+          String key=stringFieldEntry.getKey();
+          String tableName = key.split("\\.")[0];
+
+          Integer rowNum = rowNumMap.get(tableName);
+
+          List<String> generatorForeignList = generatorMap.getOrDefault(String.format("%s.%s",field.getForeignTableName(),field.getForeignKey()), null);
           BusinessException.throwIf(generatorForeignList==null, HttpCode.OPERATION_ERROR,"外键填充失败");
 
 
 
           //随机填充todo
-
           for (int i = 0; i < rowNum; i++) {
               tableDataList.get(tableName).get(i).put(field.getFieldName(),generatorForeignList.get(RandomUtils.nextInt(0,generatorForeignList.size())));
           }

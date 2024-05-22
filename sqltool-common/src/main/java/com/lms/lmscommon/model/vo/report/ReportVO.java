@@ -30,12 +30,21 @@ public class ReportVO extends BaseVO {
      */
     @ApiModelProperty("被举报对象 id")
     private Long reportedId;
+    /**
+     * 被举报对象名称
+     */
+    @ApiModelProperty("被举报对象名称")
+    private String reportedName;
 
     /**
      * 被举报用户 id
      */
     @ApiModelProperty("被举报用户 id")
     private Long reportedUserId;
+    /**
+     * 被举报用户名称
+     */
+    private String reportedUserName;
 
     /**
      * 状态（0-未处理, 1-已处理）
@@ -48,4 +57,8 @@ public class ReportVO extends BaseVO {
      */
     @ApiModelProperty("创建用户 id")
     private Long userId;
+    /**
+     * 创建用户名称
+     */
+    private String createUsername;
 }

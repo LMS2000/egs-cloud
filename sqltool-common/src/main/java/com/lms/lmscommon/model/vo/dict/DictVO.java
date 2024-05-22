@@ -42,4 +42,9 @@ public class DictVO extends BaseVO {
      */
     @ApiModelProperty(value = "创建用户id")
     private Long userId;
+    /**
+     * 创建作者
+     */
+    @ApiModelProperty("创建作者")
+    private String author;
 }

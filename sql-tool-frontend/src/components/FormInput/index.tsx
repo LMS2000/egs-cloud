@@ -548,8 +548,9 @@ const  getCurTableNames=()=>{
 																						noStyle
 																						shouldUpdate={(prevValues, curValues) => {
 																							return (
-																								prevValues.tableList[tableIndex].fieldList[index]?.foreignTableName !==
-																								curValues.tableList[tableIndex].fieldList[index]?.foreignTableName
+																							  
+																								 prevValues.tableList[tableIndex]?.fieldList[index]?.foreignTableName !==
+																								    curValues.tableList[tableIndex]?.fieldList[index]?.foreignTableName
 																							);
 																						}}
 																					>

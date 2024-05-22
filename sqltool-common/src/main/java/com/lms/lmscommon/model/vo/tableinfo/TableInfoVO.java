@@ -47,5 +47,9 @@ public class TableInfoVO extends BaseVO {
     @ApiModelProperty("创建用户 id")
     private Long userId;
 
-
+    /**
+     * 创建用户名
+     */
+    @ApiModelProperty("创建用户名")
+    private String author;
 }

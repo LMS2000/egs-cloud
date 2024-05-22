@@ -35,6 +35,11 @@ public class UserUpdateRequest implements Serializable {
      */
     @ApiModelProperty(value = "标签")
     private List<String> tags;
+    /**
+     * 邮箱
+     */
+    @ApiModelProperty(value = "邮箱")
+    private String email;
 
 
     /**

@@ -161,6 +161,7 @@ const TableInfoList: React.FC<Props> = (props) => {
       <ReportModal
         visible={reportModalVisible}
         reportedId={reportedId}
+				type={1}
         onClose={() => {
           setReportModalVisible(false);
         }}

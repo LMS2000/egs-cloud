@@ -36,26 +36,7 @@ const [showAiChat, setshowAiChat] = useState(false);
       message.error('导入错误，' + e.message);
     }
   };
-	
-	const doAiBuildSql= async()=>{
-		console.log("开始构建")
-		     
-        setLoading(true);
-				
-				// try{
-				// 	const result=await getSqlByAi({message:form.getFieldValue('aiMessage')})
-				// 	console.log(result)
-				// 	if(result.code==20000){
-				// 		form.setFieldValue('sql', result.data)
-				// 		message.success("智能构建成功！")
-				// 	}else{
-				// 		message.error("构建失败！")
-				// 	}
-				// }catch(errorInfo){
-				// 	message.error(errorInfo)
-				// }
 
-	}
 
   return (
     <Modal title="导入建表 SQL" open={visible} footer={null} onCancel={onClose}>
@@ -74,8 +55,6 @@ const [showAiChat, setshowAiChat] = useState(false);
               >
                 导入示例
               </Button>
-							<span style={{marginLeft:'20px',marginRight:'10px'}}>智能构建</span>
-							<Switch onChange={(value) => setshowAiChat(value)} />
             </>
           }
           rules={[{ required: true, message: '请输入建表 SQL' }]}
@@ -88,29 +67,9 @@ const [showAiChat, setshowAiChat] = useState(false);
             autoSize={{ minRows: 16 }}
           />
         </Form.Item>
-				{
-					showAiChat&&(
-					<Form.Item  name="aiMessage">
-					 <TextArea autoSize={{minRows:3}} placeholder="请输入系统设计的需求">
-					 </TextArea>
-					</Form.Item>
-					)
-				}
 			
         <Form.Item>
           <Space size="large">
-				{
-					showAiChat&&(
-					<Button type="primary" onLoad={(event)=>{
-						return loading;
-					}} onClick={ async (event)=>{
-						  
-					     await	doAiBuildSql()
-						}}  style={{ width: 120 }}>
-					  开始构建
-					</Button>
-					)
-				}
             <Button type="primary" htmlType="submit" style={{ width: 120 }}>
               导入
             </Button>

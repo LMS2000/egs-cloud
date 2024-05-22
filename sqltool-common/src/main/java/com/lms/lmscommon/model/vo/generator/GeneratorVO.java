@@ -134,44 +134,7 @@ public class GeneratorVO extends BaseVO {
 
 
 
-//    /**
-//     * 包装类转对象
-//     *
-//     * @param generatorVO
-//     * @return
-//     */
-//    public static Generator voToObj(GeneratorVO generatorVO) {
-//        if (generatorVO == null) {
-//            return null;
-//        }
-//        Generator generator = new Generator();
-//        BeanUtils.copyProperties(generatorVO, generator);
-//        List<String> tagList = generatorVO.getTags();
-//        generator.setTags(JSONUtil.toJsonStr(tagList));
-//        Meta.FileConfig fileConfig = generatorVO.getFileConfig();
-//        generator.setFileConfig(JSONUtil.toJsonStr(fileConfig));
-//        Meta.ModelConfig modelConfig = generatorVO.getModelConfig();
-//        generator.setModelConfig(JSONUtil.toJsonStr(modelConfig));
-//        return generator;
-//    }
-//
-//    /**
-//     * 对象转包装类
-//     *
-//     * @param generator
-//     * @return
-//     */
-//    public static GeneratorVO objToVo(Generator generator) {
-//        if (generator == null) {
-//            return null;
-//        }
-//        GeneratorVO generatorVO = new GeneratorVO();
-//        BeanUtils.copyProperties(generator, generatorVO);
-//        generatorVO.setTags(JSONUtil.toList(generator.getTags(), String.class));
-//        generatorVO.setFileConfig(JSONUtil.toBean(generator.getFileConfig(), Meta.FileConfig.class));
-//        generatorVO.setModelConfig(JSONUtil.toBean(generator.getModelConfig(), Meta.ModelConfig.class));
-//        return generatorVO;
-//    }
+
 
 
 }
