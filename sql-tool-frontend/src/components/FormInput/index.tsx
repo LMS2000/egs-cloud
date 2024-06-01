@@ -429,10 +429,18 @@ const  getCurTableNames=()=>{
 																		<Form.Item
 																			noStyle
 																			shouldUpdate={(prevValues, curValues) => {
-																				return (
+										
+																				
+																				if(prevValues.tableList[tableIndex].fieldList[index]!==undefined
+																				&&curValues.tableList[tableIndex]!==undefined&&curValues.tableList[tableIndex].fieldList[index]!==undefined
+																				){
+																					return(
 																					prevValues.tableList[tableIndex].fieldList[index]?.mockType !==
-																					curValues.tableList[tableIndex].fieldList[index]?.mockType
-																				);
+																					curValues.tableList[tableIndex].fieldList[index]?.mockType);
+																				}else{
+																					return false;
+																				}
+																				
 																			}}
 																		>
 																			{(value) => {											
@@ -547,11 +555,18 @@ const  getCurTableNames=()=>{
 																					<Form.Item
 																						noStyle
 																						shouldUpdate={(prevValues, curValues) => {
-																							return (
-																							  
-																								 prevValues.tableList[tableIndex]?.fieldList[index]?.foreignTableName !==
-																								    curValues.tableList[tableIndex]?.fieldList[index]?.foreignTableName
-																							);
+																							if(prevValues.tableList[tableIndex].fieldList[index]!==undefined
+																							&&curValues.tableList[tableIndex]!==undefined&&curValues.tableList[tableIndex].fieldList[index]!==undefined
+																							){
+																								return (
+																								 
+																									 prevValues.tableList[tableIndex]?.fieldList!==null&& prevValues.tableList[tableIndex]?.fieldList[index]?.foreignTableName !==
+																									    curValues.tableList[tableIndex]?.fieldList[index]?.foreignTableName
+																								);
+																							}else{
+																								return false;
+																							}
+																							
 																						}}
 																					>
 																					{(value2) => {	

@@ -310,15 +310,15 @@ public class GeneratorController {
         String zipFilePath = tempDirPath + "/dist.zip";
 
         // 使用文件缓存
-        String cacheFilePath = getCacheFilePath(id, distPath);
-        Path cacheFilePathObj = Paths.get(cacheFilePath);
+//        String cacheFilePath = getCacheFilePath(id, distPath);
+//        Path cacheFilePathObj = Paths.get(cacheFilePath);
         Path zipFilePathObj = Paths.get(zipFilePath);
 
-        if (!FileUtil.exist(zipFilePath)) {
-            // 有缓存，复制文件
-            if (FileUtil.exist(cacheFilePath)) {
-                Files.copy(cacheFilePathObj, zipFilePathObj);
-            } else {
+//        if (!FileUtil.exist(zipFilePath)) {
+//            // 有缓存，复制文件
+//            if (FileUtil.exist(cacheFilePath)) {
+//                Files.copy(cacheFilePathObj, zipFilePathObj);
+//            } else {
                 // 没有缓存，从对象存储下载文件
                 FileUtil.touch(zipFilePath);
                 try {
@@ -332,14 +332,14 @@ public class GeneratorController {
                 } catch (Exception e) {
                     throw new BusinessException(HttpCode.SYSTEM_ERROR, "生成器下载失败");
                 }
-                // 写文件缓存
-                File parentFile = cacheFilePathObj.toFile().getParentFile();
-                if (!FileUtil.exist(parentFile)) {
-                    FileUtil.mkdir(parentFile);
-                }
-                Files.copy(zipFilePathObj, cacheFilePathObj);
-            }
-        }
+//                // 写文件缓存
+//                File parentFile = cacheFilePathObj.toFile().getParentFile();
+//                if (!FileUtil.exist(parentFile)) {
+//                    FileUtil.mkdir(parentFile);
+//                }
+//                Files.copy(zipFilePathObj, cacheFilePathObj);
+//            }
+//        }
         // 解压压缩包，得到脚本文件
         File unzipDistDir = ZipUtil.unzip(zipFilePath);
 
@@ -379,19 +379,19 @@ public class GeneratorController {
         processBuilder.directory(scriptDir);
 
         try {
-            log.info("正在执行命令行过程");
+
             Process process = processBuilder.start();
 
             // 读取命令的输出
             InputStream inputStream = process.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
-            log.info("正在执行命令行过程2");
+
             log.info(dataModel.toString());
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
-            log.info("正在执行命令行过程23");
+
             // 等待命令执行完成
             int exitCode = process.waitFor();
             System.out.println("命令执行结束，退出码：" + exitCode);
